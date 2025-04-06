@@ -12,8 +12,8 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser", // Action type (prefix)
   async (formData) => { // Async function that performs the API call
     const response = await axios.post(
-      // "http://localhost:5000/api/auth/register", // API endpoint
-      "https://hairlyf-api-1.onrender.com/api/users/register",
+      "http://localhost:5000/api/auth/register", // API endpoint
+      // "https://hairlyf-api-1.onrender.com/api/users/register",
       formData, // Data to send to the API
       {
         withCredentials: true, // Allows sending cookies with the request
@@ -28,8 +28,8 @@ export const loginUser = createAsyncThunk(
   "auth/login", 
   async (formData) => {
     const response = await axios.post(
-      // "http://localhost:5000/api/auth/login", 
-      "https://hairlyf-api-1.onrender.com/api/users/login",
+      "http://localhost:5000/api/auth/login", 
+      // "https://hairlyf-api-1.onrender.com/api/users/login",
       formData,  
       {
         withCredentials: true, 
@@ -38,6 +38,25 @@ export const loginUser = createAsyncThunk(
     return response.data; 
   }
 );
+
+/* Logout User */
+export const checkAuth = createAsyncThunk(
+  "auth/checkAuth", 
+  async () => {
+    const response = await axios.get(
+      "http://localhost:5000/api/auth/check-auth",  
+      {
+        withCredentials: true, 
+        headers :{
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          Expires : '0',
+        }
+      }
+    );
+    return response.data; 
+  }
+);
+
 
 const authSlice = createSlice({
   name: "auth",// Name of the slice
@@ -72,6 +91,18 @@ const authSlice = createSlice({
         state.isAuthenticated = action.payload.success 
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false; 
+        state.user = null; 
+        state.isAuthenticated = false;
+      }).addCase(checkAuth.pending, (state) => {
+        state.isLoading = true; 
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.isLoading = false;  
+        state.user = action.payload.success ? action.payload.user: null;
+        state.isAuthenticated = action.payload.success 
+      })
+      .addCase(checkAuth.rejected, (state, action) => {
         state.isLoading = false; 
         state.user = null; 
         state.isAuthenticated = false;

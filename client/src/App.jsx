@@ -15,11 +15,23 @@ import ShoppingListing from "./pages/shopping-view/listing";
 import ShoppingCheckout from "./pages/shopping-view/checkout";
 import CheckAuth from "./components/common/check-auth";
 import UnauthPage from "./pages/unauth-page/index";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth } from "./store/auth-slice";
+import { useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton"
+
 
 function App() {
 
-  const {user,isAuthenticated} = useSelector(state => state.auth)
+  const {user,isAuthenticated ,isLoading} = useSelector(state => state.auth)
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(checkAuth());
+  },[dispatch])
+ 
+  if (isLoading) return <Skeleton className="w-[600px] bg-black h-[600px] " />
+  ;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
