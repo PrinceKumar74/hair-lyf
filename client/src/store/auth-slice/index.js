@@ -12,8 +12,8 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser", // Action type (prefix)
   async (formData) => { // Async function that performs the API call
     const response = await axios.post(
-      "http://localhost:5000/api/auth/register", // API endpoint
-      // "https://hairlyf-api-1.onrender.com/api/users/register",
+      // "http://localhost:5000/api/auth/register", // API endpoint
+      "https://hairlyf-api-1.onrender.com/api/users/register",
       formData, // Data to send to the API
       {
         withCredentials: true, // Allows sending cookies with the request
@@ -28,8 +28,8 @@ export const loginUser = createAsyncThunk(
   "auth/login", 
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:5000/api/auth/login", 
-      // "https://hairlyf-api-1.onrender.com/api/users/login",
+      // "http://localhost:5000/api/auth/login", 
+      "https://hairlyf-api-1.onrender.com/api/users/login",
       formData,  
       {
         withCredentials: true, 
