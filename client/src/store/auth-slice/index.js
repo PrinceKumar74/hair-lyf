@@ -39,7 +39,7 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-/* Logout User */
+/* Checking User Authentication */
 export const checkAuth = createAsyncThunk(
   "auth/checkAuth", 
   async () => {
