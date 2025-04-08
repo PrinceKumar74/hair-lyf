@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -11,14 +12,17 @@ const initialState = {
 export const registerUser = createAsyncThunk(
   "auth/registerUser", // Action type (prefix)
   async (formData) => { // Async function that performs the API call
+    console.log(formData);
     const response = await axios.post(
-      "http://localhost:5000/api/auth/register", // API endpoint
-      // "https://hairlyf-api-1.onrender.com/api/users/register",
-      formData, // Data to send to the API
+      "https://hairlyf-api-1.onrender.com/api/users/register",
+      formData,
       {
-        withCredentials: true, // Allows sending cookies with the request
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
       }
-    );
+    );    
     return response.data; // The result of the API call
   }
 );

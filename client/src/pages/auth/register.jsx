@@ -7,9 +7,10 @@ import { useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
 
 const initialState = {
-  userName: "",
+  name: "",
   email: "",
   password: "",
+  phoneNumber:""
 };
 
 function AuthRegister() {

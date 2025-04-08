@@ -2,20 +2,12 @@
 
 export const registerFormControls = [
     {
-        name: 'userName',
+        name: 'name',
         label: 'Username',
         placeholder: 'Enter your username',
         componentType: 'input',
         type: 'text',
     },
-    {
-        name: 'phoneNumber',
-        label: 'Phone Number',
-        placeholder: 'Enter your phone number',
-        componentType: 'input',
-        type: 'text',
-    }
-    ,
     {  
         name: 'email',
         label: 'Email',
@@ -30,7 +22,13 @@ export const registerFormControls = [
         componentType: 'input',
         type: 'password',
     },
-    
+    {
+        name: 'phoneNumber',
+        label: 'Phone Number',
+        placeholder: 'Enter your phone number',
+        componentType: 'input',
+        type: 'text',
+    },
 ]
 
 

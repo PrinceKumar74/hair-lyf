@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useDispatch } from "react-redux";
 import { useToast } from "@/hooks/use-toast";
 import { loginUser } from "@/store/auth-slice";
