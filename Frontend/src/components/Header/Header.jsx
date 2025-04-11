@@ -47,8 +47,9 @@ const Header = () => {
       {/* Main Header */}
       <nav className="bg-gray-800 text-white shadow-md px-4 py-1 flex justify-between items-center">
         {/* Logo (Always Visible) */}
+        
         <div className="flex items-center space-x-2">
-          <img src="/assets/logo.png" alt="Logo" className="h-16 w-auto" />
+          <img src="/logo.png" alt="Logo" className="h-16 w-auto" />
         </div>
 
         {/* Navigation Links (Visible on Larger Screens) */}
@@ -159,7 +160,7 @@ const Header = () => {
             <li>
               <div className="flex items-center space-x-2">
                 <img
-                  src="/assets/logo.png"
+                  src="/logo.png"
                   alt="Logo"
                   className="h-16 w-auto"
                 />
@@ -184,11 +185,7 @@ const Header = () => {
                 OUR STORY
               </Link>
             </li>
-            <li>
-              <Link to="/tryOn" onClick={() => setIsSidebarOpen(false)}>
-                <TryOnButton />
-              </Link>
-            </li>
+            
             <li>
               <Link
                 to="/help"
@@ -207,7 +204,11 @@ const Header = () => {
                 BLOGS
               </Link>
             </li>
-           
+            <li>
+              <Link to="/tryOn" onClick={() => setIsSidebarOpen(false)}>
+                <TryOnButton />
+              </Link>
+            </li>
           </ul>
 
           {/* User Icon in Sidebar - Positioned at Bottom Left */}

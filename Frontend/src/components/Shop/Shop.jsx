@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../store/slice/cartSlice';
 
@@ -24,6 +24,7 @@ const Shop = () => {
 
   return (
     <div className="p-4">
+      <Outlet/>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {data.map(product => (
           <div key={product.id} className="border p-4 rounded-lg">

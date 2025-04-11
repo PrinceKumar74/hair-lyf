@@ -10,6 +10,9 @@ import Help from './components/Help/Help.jsx'
 import Blogs from './components/Blogs/Blogs.jsx'
 import Cart from './components/Cart/Cart.jsx'
 import Whishlist from './components/Wishlist/Wishlist.jsx'
+import Shop from './components/Shop/Shop.jsx'
+import MenSection from './components/Categories/MenSection/MenSection.jsx'
+import WomenSection from './components/Categories/WomenSection/WomenSection.jsx'
 const App = () => {
   return (
    <Provider store={store}>
@@ -23,6 +26,12 @@ const App = () => {
         <Route path='/blogs' element={<Blogs/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/wishlist' element={<Whishlist/>}/>
+
+       {/* Shop Page with nested elements */}
+        <Route path='/shop' element={<Shop/>}>
+        <Route path='menSection' element={<MenSection/>}/>
+        <Route path='womenSection' element={<WomenSection/>}/>
+        </Route>
       </Routes>
     </Router>
    </Provider>
