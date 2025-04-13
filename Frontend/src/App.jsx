@@ -13,6 +13,7 @@ import Whishlist from './components/Wishlist/Wishlist.jsx'
 import Shop from './components/Shop/Shop.jsx'
 import MenSection from './components/Categories/MenSection/MenSection.jsx'
 import WomenSection from './components/Categories/WomenSection/WomenSection.jsx'
+import Footer from './components/Footer/Footer.jsx'
 const App = () => {
   return (
    <Provider store={store}>
@@ -33,6 +34,7 @@ const App = () => {
         <Route path='womenSection' element={<WomenSection/>}/>
         </Route>
       </Routes>
+      <Footer/>
     </Router>
    </Provider>
   )
