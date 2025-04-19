@@ -1,240 +1,219 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectTotalItems } from '../../../store/slice/cartSlice';
-import { Link } from "react-router-dom";
+import { selectTotalItems } from "../../../store/slice/cartSlice";
 import {
-  FaBars,
-  FaSearch,
-  FaHeart,
-  FaShoppingCart,
-  FaUser,
-  FaTimes,
-} from "react-icons/fa";
-// import SearchBar from "./SearchBar/SearchBar";
-import TryOnButton from "../ReusableComponents/TryOnButton";
+  HomeIcon,
+  BookOpenIcon,
+  CubeTransparentIcon,
+  NewspaperIcon,
+  LifebuoyIcon,
+  UserIcon,
+  HeartIcon,
+  MagnifyingGlassIcon,
+  ShoppingBagIcon,
+  XMarkIcon,
+  Bars3Icon,
+} from "@heroicons/react/24/outline";
 import TopHeader from "./TopHeader/TopHeader";
 
-const Header = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+export default function Header() {
+  // State for mobile menu and search overlay
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [activePage, setActivePage] = useState("Home");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Use the selector to get the total number of items in the cart
+  const navigate = useNavigate();
+  // Redux integration to get total items from cart
   const totalItems = useSelector(selectTotalItems);
 
-  // Handle input change
+  // Define your navigation items with label, icon, and related route
+  const navigationItems = [
+    { label: "Home", icon: <HomeIcon className="w-5 h-5" />, to: "/" },
+    { label: "Our Story", icon: <BookOpenIcon className="w-5 h-5" />, to: "/ourStory" },
+    { label: "3D Try-On", icon: <CubeTransparentIcon className="w-5 h-5" />, to: "/tryOn" },
+    { label: "Blogs", icon: <NewspaperIcon className="w-5 h-5" />, to: "/blogs" },
+    { label: "Help", icon: <LifebuoyIcon className="w-5 h-5" />, to: "/help" },
+  ];
+
+  // Handle clicking a NavItem: update active and close mobile menu if open
+  const handleNavClick = (page) => {
+    setActivePage(page);
+    setIsMenuOpen(false);
+  };
+
+  // Toggle search overlay visibility
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+
+  // Handle updates from the search input
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  // Handle search action
+  // Function to perform search; here you can integrate your own logic
   const handleSearch = () => {
     if (searchQuery.trim()) {
       console.log("Searching for:", searchQuery);
-      // You can replace this with your desired search logic:
-      // e.g., redirect to a search page or update state
-      // window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+      // Redirect to a search page with the query (if desired)
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      // Optionally close the search overlay and reset the query
+      setIsSearchOpen(false);
+      setSearchQuery("");
     } else {
       alert("Please enter a search query.");
     }
   };
 
-  // Toggle sidebar visibility
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+  // Handle form submit on the search overlay
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    handleSearch();
   };
 
   return (
-    <div>
-      <TopHeader/>
-      {/* Main Header */}
-      <nav className="bg-gray-800 text-white shadow-md px-4 py-1 flex justify-between items-center">
-        {/* Logo (Always Visible) */}
-        
-        <div className="flex items-center space-x-2">
-          <img src="/logo.png" alt="Logo" className="h-16 w-auto" />
+    <header className="relative font-archivo">
+      
+      <TopHeader />
+
+      <div className="flex justify-between items-center px-6 md:px-10 py-4 bg-white shadow-sm">
+   {/* Logo */}
+        <div className="font-bold text-xl md:text-2xl tracking-wider">
+          <Link to="/">
+            <img src="/logo.png" alt="company logo" className="w-12 md:w-16" />
+          </Link>
         </div>
 
-        {/* Navigation Links (Visible on Larger Screens) */}
-        <ul className="hidden lg:flex space-x-8 text-white items-center">
-          <li>
-            <Link to="/" className="hover:text-orange-400">
-              HOME
-            </Link>
-          </li>
-          
-          <li>
-            <Link to="/ourStory" className="hover:text-orange-400">
-              OUR STORY
-            </Link>
-          </li>
-          <li>
-            <Link to="/tryOn">
-              <TryOnButton />
-            </Link>
-          </li>
-          <li>
-            <Link to="/help" className="hover:text-orange-400">
-              HELP
-            </Link>
-          </li>
-          <li>
-            <Link to="/blogs" className="hover:text-orange-400">
-              BLOGS
-            </Link>
-          </li>
-        </ul>
-
-        {/* Icons (Always Visible) */}
-        <div className="flex space-x-4 items-center">
-          <Link to="/search" className="hover:text-orange-400">
-            {/* <FaSearch size={20} /> */}
-            <div className="relative">
-              {/* Search Input */}
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={handleInputChange}
-                placeholder="Search..."
-                className="px-4 py-2 pr-10 w-full rounded-md border border-gray-300 focus:outline-none focus:border-blue-500 text-sm"
-              />
-
-              {/* Search Icon */}
-              <button
-                onClick={handleSearch}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-500 transition-colors duration-300"
-              >
-                <FaSearch size={16} />
-              </button>
-            </div>
+     
+        <nav className="hidden md:flex space-x-6 lg:space-x-8 items-center">
+          {navigationItems.map((item) => (
+            <NavItem
+              key={item.label}
+              label={item.label}
+              icon={item.icon}
+              to={item.to}
+              active={activePage === item.label}
+              onClick={handleNavClick}
+              mobile={false}
+            />
+          ))}
+        </nav>
+        <div className="hidden md:flex space-x-6 items-center">
+          <Link to="/profile" aria-label="Account" className="group">
+            <UserIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
           </Link>
-          <Link to="/wishlist" className="hover:text-orange-400">
-            <FaHeart size={20} />
+          <Link to="/wishlist" aria-label="Wishlist" className="group">
+            <HeartIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
           </Link>
-          {/* Cart Icon with Badge */}
-          <Link to="/cart" className="hover:text-orange-400 relative">
-            <FaShoppingCart size={20} />
-
-            {/* Badge for Cart Count */}
+          <button aria-label="Search" onClick={toggleSearch} className="group">
+            <MagnifyingGlassIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
+          </button>
+          <Link to="/cart" aria-label="Cart" className="group relative">
+            <ShoppingBagIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
+            
             {totalItems > 0 && (
               <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
                 {totalItems}
               </span>
             )}
           </Link>
-
-          {/* User Icon - Conditionally Rendered for Larger Screens */}
-          <div className="hidden md:block">
-            <Link to="/profile" className="hover:text-orange-400">
-              <FaUser size={20} />
-            </Link>
-          </div>
         </div>
 
-        {/* Hamburger Menu (Visible on Smaller Screens) */}
-        <div className="lg:hidden">
-          <button onClick={toggleSidebar}>
-            {isSidebarOpen ? (
-              <FaTimes size={24} className="text-white" />
+        <div className="md:hidden flex space-x-4 items-center">
+          <Link to="/wishlist" aria-label="Wishlist">
+            <HeartIcon className="w-5 h-5 text-gray-800" />
+          </Link>
+          <button aria-label="Search" onClick={toggleSearch}>
+            <MagnifyingGlassIcon className="w-5 h-5 text-gray-800" />
+          </button>
+          <Link to="/cart" aria-label="Cart" className="relative">
+            <ShoppingBagIcon className="w-5 h-5 text-gray-800" />
+            {totalItems > 0 && (
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+          <button
+            className="ml-2"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <XMarkIcon className="w-6 h-6" />
             ) : (
-              <FaBars size={24} className="text-white" />
+              <Bars3Icon className="w-6 h-6" />
             )}
           </button>
         </div>
-      </nav>
-
-      {/* Sidebar (Collapsible Menu) */}
-      <div
-        className={`fixed top-0 left-0 h-full bg-gray-800 text-white w-64 transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out z-50`}
-      >
-        <div className="p-4">
-          {/* Close Button */}
-          <button
-            className="text-white absolute top-8 right-4"
-            onClick={() => setIsSidebarOpen(false)}
-          >
-            <FaTimes size={24} />
-          </button>
-
-          {/* Sidebar Links */}
-          <ul className="space-y-4 ">
-            <li>
-              <div className="flex items-center space-x-2">
-                <img
-                  src="/logo.png"
-                  alt="Logo"
-                  className="h-16 w-auto"
-                />
-              </div>
-            </li>
-            <li>
-              <Link
-                to="/"
-                className="block hover:text-orange-400"
-                onClick={() => setIsSidebarOpen(false)}
-              >
-                HOME
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/ourStory"
-                className="block hover:text-orange-400"
-                onClick={() => setIsSidebarOpen(false)}
-              >
-                OUR STORY
-              </Link>
-            </li>
-            
-            <li>
-              <Link
-                to="/help"
-                className="block hover:text-orange-400"
-                onClick={() => setIsSidebarOpen(false)}
-              >
-                HELP
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/blogs"
-                className="block hover:text-orange-400"
-                onClick={() => setIsSidebarOpen(false)}
-              >
-                BLOGS
-              </Link>
-            </li>
-            <li>
-              <Link to="/tryOn" onClick={() => setIsSidebarOpen(false)}>
-                <TryOnButton />
-              </Link>
-            </li>
-          </ul>
-
-          {/* User Icon in Sidebar - Positioned at Bottom Left */}
-          <div className="absolute bottom-4 left-4">
-            <Link
-              to="/profile"
-              className="hover:text-orange-400"
-              onClick={() => setIsSidebarOpen(false)}
-            >
-              <FaUser size={24} />
-            </Link>
-          </div>
-        </div>
       </div>
 
-      {/* Overlay to Close Sidebar */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black opacity-50 z-40"
-          onClick={() => setIsSidebarOpen(false)}
-        ></div>
+      {isMenuOpen && (
+        <div className="absolute top-full left-0 right-0 bg-white shadow-md z-10">
+          <nav className="flex flex-col">
+            {navigationItems.map((item) => (
+              <NavItem
+                key={item.label}
+                mobile
+                label={item.label}
+                icon={item.icon}
+                to={item.to}
+                active={activePage === item.label}
+                onClick={handleNavClick}
+              />
+            ))}
+            <div className="flex justify-start gap-8 px-6 py-4 border-t border-gray-100">
+              <Link to="/profile" aria-label="Account" className="flex items-center gap-2">
+                <UserIcon className="w-5 h-5" />
+                <span className="text-sm">Account</span>
+              </Link>
+            </div>
+          </nav>
+        </div>
       )}
-    </div>
-  );
-};
 
-export default Header;
+      
+      {isSearchOpen && (
+        <div className="absolute top-full left-0 right-0 bg-white shadow-md p-4 z-20">
+          <form className="flex items-center" onSubmit={handleSearchSubmit}>
+            <div className="relative flex-grow">
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={handleInputChange}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                autoFocus
+              />
+            </div>
+            <button type="button" onClick={toggleSearch} className="ml-4 text-red-600 font-medium">
+              Cancel
+            </button>
+          </form>
+        </div>
+      )}
+    </header>
+  );
+}
+function NavItem({ icon, label, active, to, onClick, mobile = false }) {
+  return (
+    <Link
+      to={to}
+      onClick={() => onClick(label)}
+      className={`flex items-center gap-2 ${mobile ? "w-full py-3 px-6 hover:bg-gray-50" : ""}`}
+      aria-current={active ? "page" : undefined}
+    >
+      {icon}
+      <span
+        className={`uppercase text-sm tracking-wide transition-colors duration-300 ${
+          active ? "text-red-600 font-medium" : "text-gray-800 hover:text-red-600"
+        } ${!mobile && active ? "border-b-2 border-red-600 pb-1" : ""}`}
+      >
+        {label}
+      </span>
+    </Link>
+  );
+}
