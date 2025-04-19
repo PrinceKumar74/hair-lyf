@@ -1,6 +1,7 @@
 // store.js
 import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './slice/cartSlice';
+import authReducer from './slice/authSlice';
 
 // Middleware to persist cart state to localStorage
 const persistCartMiddleware = (store) => (next) => (action) => {
@@ -23,7 +24,12 @@ const persistCartMiddleware = (store) => (next) => (action) => {
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
+    auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(persistCartMiddleware),
 });
+
+
+
+
