@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectTotalItems } from "../../../store/slice/cartSlice";
 import {
@@ -18,17 +18,19 @@ import {
 import TopHeader from "./TopHeader/TopHeader";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   // State for mobile menu and search overlay
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [activePage, setActivePage] = useState("Home");
+  const [activePage, setActivePage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const navigate = useNavigate();
   // Redux integration to get total items from cart
   const totalItems = useSelector(selectTotalItems);
 
-  // Define your navigation items with label, icon, and related route
+  // Navigation configuration
   const navigationItems = [
     { label: "Home", icon: <HomeIcon className="w-5 h-5" />, to: "/" },
     { label: "Our Story", icon: <BookOpenIcon className="w-5 h-5" />, to: "/ourStory" },
@@ -37,29 +39,52 @@ export default function Header() {
     { label: "Help", icon: <LifebuoyIcon className="w-5 h-5" />, to: "/help" },
   ];
 
-  // Handle clicking a NavItem: update active and close mobile menu if open
-  const handleNavClick = (page) => {
-    setActivePage(page);
+  const searchOverlayRef = useRef(null);
+
+  // Sync active page with current route
+  useEffect(() => {
+    const pathToLabel = {
+      "/": "Home",
+      "/ourStory": "Our Story",
+      "/tryOn": "3D Try-On",
+      "/blogs": "Blogs",
+      "/help": "Help",
+    };
+    setActivePage(pathToLabel[location.pathname] || "");
+  }, [location.pathname]);
+
+  // Close search overlay when clicking outside (but not on the search button)
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        isSearchOpen &&
+        searchOverlayRef.current &&
+        !searchOverlayRef.current.contains(event.target) &&
+        !event.target.closest('[aria-label="Search"]')
+      ) {
+        setIsSearchOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isSearchOpen]);
+
+  // Handle clicking a NavItem: close mobile menu
+  const handleNavClick = () => {
     setIsMenuOpen(false);
   };
 
-  // Toggle search overlay visibility
   const toggleSearch = () => {
-    setIsSearchOpen(!isSearchOpen);
+    setIsSearchOpen((prev) => !prev);
   };
 
-  // Handle updates from the search input
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  // Function to perform search; here you can integrate your own logic
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      console.log("Searching for:", searchQuery);
-      // Redirect to a search page with the query (if desired)
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-      // Optionally close the search overlay and reset the query
       setIsSearchOpen(false);
       setSearchQuery("");
     } else {
@@ -67,27 +92,24 @@ export default function Header() {
     }
   };
 
-  // Handle form submit on the search overlay
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     handleSearch();
   };
 
   return (
-    <header className="relative font-archivo">
-      
+    <header className="relative font-archivo mb-6">
       <TopHeader />
 
       <div className="flex justify-between items-center px-6 md:px-10 py-4 bg-white shadow-sm">
-   {/* Logo */}
+        {/* Logo */}
         <div className="font-bold text-xl md:text-2xl tracking-wider">
-          <Link to="/">
+          <Link to="/" aria-label="Homepage">
             <img src="/logo.png" alt="company logo" className="w-12 md:w-16" />
           </Link>
         </div>
 
-     
-        <nav className="hidden md:flex space-x-6 lg:space-x-8 items-center">
+        <nav role="navigation" aria-label="Main navigation" className="hidden md:flex space-x-6 lg:space-x-8 items-center">
           {navigationItems.map((item) => (
             <NavItem
               key={item.label}
@@ -100,6 +122,7 @@ export default function Header() {
             />
           ))}
         </nav>
+
         <div className="hidden md:flex space-x-6 items-center">
           <Link to="/profile" aria-label="Account" className="group">
             <UserIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
@@ -107,12 +130,16 @@ export default function Header() {
           <Link to="/wishlist" aria-label="Wishlist" className="group">
             <HeartIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
           </Link>
-          <button aria-label="Search" onClick={toggleSearch} className="group">
-            <MagnifyingGlassIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
+          <button
+            aria-label="Search"
+            aria-expanded={isSearchOpen}
+            onClick={toggleSearch}
+            className="group"
+          >
+            <MagnifyingGlassIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300 cursor-pointer" />
           </button>
           <Link to="/cart" aria-label="Cart" className="group relative">
             <ShoppingBagIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
-            
             {totalItems > 0 && (
               <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
                 {totalItems}
@@ -125,8 +152,13 @@ export default function Header() {
           <Link to="/wishlist" aria-label="Wishlist">
             <HeartIcon className="w-5 h-5 text-gray-800" />
           </Link>
-          <button aria-label="Search" onClick={toggleSearch}>
-            <MagnifyingGlassIcon className="w-5 h-5 text-gray-800" />
+          <button
+            aria-label="Search"
+            aria-expanded={isSearchOpen}
+            onClick={toggleSearch}
+            
+          >
+            <MagnifyingGlassIcon className="w-5 h-5 text-gray-800 " />
           </button>
           <Link to="/cart" aria-label="Cart" className="relative">
             <ShoppingBagIcon className="w-5 h-5 text-gray-800" />
@@ -139,19 +171,22 @@ export default function Header() {
           <button
             className="ml-2"
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? (
-              <XMarkIcon className="w-6 h-6" />
-            ) : (
-              <Bars3Icon className="w-6 h-6" />
-            )}
+            {isMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
       {isMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white shadow-md z-10">
+        <div
+          id="mobile-menu"
+          role="navigation"
+          aria-label="Mobile navigation"
+          className="absolute top-full left-0 right-0 bg-white shadow-md z-10"
+        >
           <nav className="flex flex-col">
             {navigationItems.map((item) => (
               <NavItem
@@ -174,9 +209,11 @@ export default function Header() {
         </div>
       )}
 
-      
       {isSearchOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white shadow-md p-4 z-20">
+        <div
+          ref={searchOverlayRef}
+          className="absolute top-full left-0 right-0 bg-white shadow-md p-4 z-20"
+        >
           <form className="flex items-center" onSubmit={handleSearchSubmit}>
             <div className="relative flex-grow">
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -198,6 +235,7 @@ export default function Header() {
     </header>
   );
 }
+
 function NavItem({ icon, label, active, to, onClick, mobile = false }) {
   return (
     <Link
