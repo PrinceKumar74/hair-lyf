@@ -5,6 +5,7 @@ import FreshArrivals from './Container3/FreshArrivals'
 import TryOur3DVirtualHair from './Container4/TryOur3DVirtualHair'
 import TestimonialSlider from './Container6/Testimonials'
 import StylingCenters from './Container5/StylingCenters'
+import Blogs from './Container7/Blogs'
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <TryOur3DVirtualHair/>
       <StylingCenters/>
       <TestimonialSlider/>
+      <Blogs/>
     </div>
   )
 }
