@@ -35,7 +35,7 @@ const SearchBar = () => {
       {/* Search Icon */}
       <button
         onClick={handleSearch}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-500 transition-colors duration-300"
+        className="absolute right-2 top-1/2   transform -translate-y-1/2 text-gray-500 hover:text-blue-500 transition-colors duration-300"
       >
         <FaSearch size={16} />
       </button>

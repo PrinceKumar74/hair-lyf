@@ -19,58 +19,34 @@ import NotFound from "./components/pages/notFound/NotFound.jsx";
 import Login from "./components/pages/authPages/Login.jsx";
 import Register from "./components/pages/authPages/Register.jsx";
 import CheckAuth from "./components/auth/CheckAuth.jsx";
-import { useSelector } from "react-redux";
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
 
-// import ProtectedRoute from "./components/auth/ProtectedRoute.js";
 const App = () => {
   return (
     <Provider store={store}>
       <Router>
         <Header />
         <Routes>
-          {/* <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          /> */}
-
           <Route path="/" element={<Home />} />
           <Route path="/ourStory" element={<OurStory />} />
           <Route path="/tryOn" element={<TryOn />} />
           <Route path="/help" element={<Help />} />
           <Route path="/blogs" element={<Blogs />} />
-
+          <Route path="/product/:id" element={<ProductDetailPage />} />
           {/* Cart Page -- with Protected Route */}
           <Route
             path="/cart"
             element={
-              // <CheckAuth isAuthenticated={isAuthenticated}>
               <Cart />
-              // </CheckAuth>
             }
           />
           <Route path="/wishlist" element={<Whishlist />} />
-
-          {/* Shop Page with nested elements */}
           <Route path="/shop" element={<Shop />}>
             <Route path="menSection" element={<MenSection />} />
             <Route path="womenSection" element={<WomenSection />} />
           </Route>
-
-          {/* auth-routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
-          {/* not found */}
-
           <Route path="/unauth-page" element={<UnauthPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -79,5 +55,4 @@ const App = () => {
     </Provider>
   );
 };
-
 export default App;
