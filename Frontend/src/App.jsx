@@ -37,10 +37,19 @@ const App = () => {
           <Route
             path="/cart"
             element={
-              <Cart />
+              <CheckAuth>
+                <Cart />
+              </CheckAuth>
             }
           />
-          <Route path="/wishlist" element={<Whishlist />} />
+          <Route
+            path="/wishlist"
+            element={
+              <CheckAuth>
+                <Whishlist />
+              </CheckAuth>
+            }
+          />
           <Route path="/shop" element={<Shop />}>
             <Route path="menSection" element={<MenSection />} />
             <Route path="womenSection" element={<WomenSection />} />
