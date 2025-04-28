@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="bg-red-100 text-black py-10 px-6 lg:px-20">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Logo + Email Sign-up */}
+        {/* Logo */}
         <div>
           <div>
             <img src="/logo.png" alt="" />
