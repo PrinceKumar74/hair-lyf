@@ -1,100 +1,141 @@
-
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const FreshArrivals = () => {
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState([]);
   const [menProducts, setMenProducts] = useState([]);
   const [womenProducts, setWomenProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const fetchedData = await fetch("https://hairlyf-backend-api.onrender.com/api/products");
-        const data = await fetchedData.json();
-        setProducts(data);
-        const allItem = data.products;
-        const men = allItem.filter((product) => product.category === "men");
-        const women = allItem.filter((product) => product.category === "women");
-        const fourMenProduct = men.slice(0, 4);
-        const fourWomenProduct = women.slice(0, 4);
-        const menWithUrls = fourMenProduct.map((item) => ({
-          ...item,
-          imageUrls: item.images.map((imageObj) => {
-            const urlCharacters = Object.values(imageObj).slice(0, -1);
-            return urlCharacters.join("");
-          }),
-        }));
-        const womenWithUrls = fourWomenProduct.map((item) => ({
-          ...item,
-          imageUrls: item.images.map((imageObj) => {
-            const urlCharacters = Object.values(imageObj).slice(0, -1);
-            return urlCharacters.join("");
-          }),
-        }));
+        const response = await fetch("https://hairlyf-backend-api.onrender.com/api/products");
+        const data = await response.json();
+        setProducts(data.products || []);
 
-        setMenProducts(menWithUrls);
-        setWomenProducts(womenWithUrls);
+        const men = data.products?.filter((product) => product.category === "men") || [];
+        const women = data.products?.filter((product) => product.category === "women") || [];
 
-        console.log("menProducts: ", womenProducts);
-      } catch (error) {
-        console.log(error);
+        const formatProducts = (arr) =>
+          arr.slice(0, 4).map((item) => ({
+            ...item,
+            imageUrls: item.images?.map((img) => {
+              const urlChars = Object.values(img).slice(0, -1);
+              return urlChars.join("");
+            }),
+          }));
+
+        setMenProducts(formatProducts(men));
+        setWomenProducts(formatProducts(women));
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError(true);
+        setLoading(false);
       }
     };
     fetchProducts();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[50vh]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-purple-500 border-opacity-50"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-10">
+        <p className="text-2xl font-semibold text-red-500 mb-6">Something went wrong!</p>
+        <button
+          className="px-6 py-3 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition"
+          onClick={() => window.location.reload()}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  const renderProducts = (items, bgColor) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 px-6 md:px-16 lg:px-24">
+      {items.map((item) => {
+        const offerPrice = (item.price).toFixed(2);
+        const originalPrice = (item.price + 500).toFixed(2);
+
+        return (
+          <div
+            key={item._id}
+            className="bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-200 hover:border-[#D0764F] transition duration-300 overflow-hidden"
+          >
+            <Link to={`/product/${item._id}`}>
+              <div className={`relative ${bgColor} h-72 flex items-center justify-center`}>
+                <img
+                  src={item.imageUrls?.[0]}
+                  alt={item.name}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            </Link>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3 truncate">{item.name}</h3>
+              <div className="mb-5">
+                <p className="text-gray-400 text-sm line-through">MRP: ₹{originalPrice}</p>
+                <p className="text-[#D0764F] text-lg font-bold mt-1">₹{offerPrice}</p>
+              </div>
+              <Link to={`/product/${item._id}`}>
+                <button
+                  className="bg-[#D0764F] text-black w-full py-3 cursor-pointer rounded-md font-semibold tracking-wide hover:bg-[#c06441] transition"
+                >
+                  View
+                </button>
+              </Link>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+
   return (
-    <div className="text-center py-10">
-      <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider">OUR FRESH ARRIVALS</h2>
-      <hr className="border-t border-black w-[90%] mx-auto mt-4 mb-12" />
-      <div className="grid grid-cols-2 gap-6 md:flex md:flex-row justify-center px-12 md:px-16 lg:px-20 mb-5">
-        {menProducts.map((item) => (
-          <div className="flex flex-col md:w-80" key={item._id}>
-            <Link to={`/product/${item._id}`}>
-              <div className="bg-[#C9AEDE]">
-                <img src={item.imageUrls?.[0]} alt={item.name || "Men's Product"} className="w-62" />
-              </div>
-            </Link>
-            <p className="text-xl md:text-2xl font-semibold mt-2">{item.name}</p>
-            <hr className="border-t border-black w-[90%] mb-4 mt-1" />
-            <div className="flex flex-col xl:flex-row xl:gap-3 justify-center mb-3">
-              <p className="text-purple-700 line-through">MRP: {item.price}</p>
-              <p className="text-purple-700">MRP: {item.price}</p>
-            </div>
-            <button className="bg-[#AA5BAE] hover:bg-[#a941ae] text-white px-4 py-2 rounded-lg cursor-pointer xl:w-1/2">
-              Add to Cart
-            </button>
-          </div>
-        ))}
+    <div className="py-16 bg-gray-50">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">
+          Our Fresh Arrivals
+        </h2>
+        <p className="mt-4 text-gray-500">Handpicked styles just for you.</p>
+        <hr className="border-t border-purple-300 w-1/4 mx-auto mt-6" />
       </div>
-      <div className="grid grid-cols-2 gap-6 md:flex md:flex-row justify-center px-12 md:px-16 lg:px-20">
-        {womenProducts.map((item) => (
-          <div className="flex flex-col md:w-80" key={item._id}>
-            <Link to={`/product/${item._id}`}>
-              <div className="bg-[#E2D1CA]">
-                <img src={item.imageUrls?.[0]} alt={item.name || "Women's Product"} className="w-62" />
-              </div>
-            </Link>
-            <p className="text-xl md:text-2xl font-semibold mt-2">{item.name}</p>
-            <hr className="border-t border-black w-[90%] mb-4 mt-1" />
-            <div className="flex flex-col xl:flex-row xl:gap-3 justify-center mb-3">
-              <p className="text-purple-700 line-through">MRP: {item.price}</p>
-              <p className="text-purple-700">MRP: {item.price}</p>
-            </div>
-            <button className="bg-[#AA5BAE] hover:bg-[#a941ae] text-white px-4 py-2 rounded-lg cursor-pointer xl:w-1/2">
-              Add to Cart
-            </button>
-          </div>
-        ))}
+
+      {/* Men Section */}
+      <div className="mb-16">
+        <h3 className="text-2xl md:text-3xl font-bold text-left px-6 md:px-12 mb-8">
+          For Him
+        </h3>
+        {renderProducts(menProducts, "bg-[#F3E8FF]")}
       </div>
-      <div className="flex justify-center mt-5">
-        <button className="mt-4 px-7 py-3 border-2 border-[#AA5BAE] text-lg font-semibold rounded-md hover:bg-purple-50 transition cursor-pointer">
+
+      {/* Women Section */}
+      <div className="mb-16">
+        <h3 className="text-2xl md:text-3xl font-bold text-left px-6 md:px-12 mb-8">
+          For Her
+        </h3>
+        {renderProducts(womenProducts, "bg-[#FCE7F3]")}
+      </div>
+
+      {/* View More Button */}
+      <div className="flex justify-center">
+        <button className="mt-10 px-8 py-4 border-2 border-[#D0764F] text-black text-lg font-semibold rounded-md hover:bg-[#d0764f1a] transition">
           View More
         </button>
+
       </div>
     </div>
   );
 };
+
 export default FreshArrivals;
