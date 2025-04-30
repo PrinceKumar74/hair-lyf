@@ -20,7 +20,7 @@ import Login from "./components/pages/authPages/Login.jsx";
 import Register from "./components/pages/authPages/Register.jsx";
 import CheckAuth from "./components/auth/CheckAuth.jsx";
 import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
-
+import Wishlist from './components/pages/Wishlist/Wishlist.jsx';
 const App = () => {
   return (
     <Provider store={store}>
@@ -40,7 +40,7 @@ const App = () => {
               <Cart />
             }
           />
-          <Route path="/wishlist" element={<Whishlist />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/shop" element={<Shop />}>
             <Route path="menSection" element={<MenSection />} />
             <Route path="womenSection" element={<WomenSection />} />
