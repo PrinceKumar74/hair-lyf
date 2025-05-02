@@ -9,7 +9,7 @@ import OurStory from "./components/pages/OurStory/OurStory.jsx";
 import Help from "./components/pages/Help/Help.jsx";
 import Blogs from "./components/pages/Blogs/Blogs.jsx";
 import Cart from "./components/pages/Cart/Cart.jsx";
-import Whishlist from "./components/pages/Wishlist/Wishlist.jsx";
+
 import Shop from "./components/pages/Shop/Shop.jsx";
 import MenSection from "./components/pages/Categories/MenSection/MenSection.jsx";
 import WomenSection from "./components/pages/Categories/WomenSection/WomenSection.jsx";
@@ -21,6 +21,7 @@ import Register from "./components/pages/authPages/Register.jsx";
 import CheckAuth from "./components/auth/CheckAuth.jsx";
 import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
 import Wishlist from './components/pages/Wishlist/Wishlist.jsx';
+import UserDashboard from "./components/pages/userDashboard/UserDashboard.jsx";
 const App = () => {
   return (
     <Provider store={store}>
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/unauth-page" element={<UnauthPage />} />
+          <Route path="/UserDashboard" element={<UserDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
