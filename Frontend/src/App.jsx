@@ -20,6 +20,9 @@ import Login from "./components/pages/authPages/Login.jsx";
 import Register from "./components/pages/authPages/Register.jsx";
 import CheckAuth from "./components/auth/CheckAuth.jsx";
 import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
+import AuthLayout from "./components/pages/authPages/Layout.jsx";
+import LoginWithOTP from "./components/pages/authPages/otp/LoginWithOTP.jsx";
+import VerifyWithOTP from "./components/pages/authPages/otp/VerifyWithOTP.jsx";
 
 const App = () => {
   return (
@@ -54,8 +57,15 @@ const App = () => {
             <Route path="menSection" element={<MenSection />} />
             <Route path="womenSection" element={<WomenSection />} />
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+
+          <Route path="/" element={<AuthLayout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="login-with-otp" element={<LoginWithOTP />} />
+            <Route path="verify-with-otp" element={<VerifyWithOTP />} />
+
+          </Route>
+
           <Route path="/unauth-page" element={<UnauthPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
