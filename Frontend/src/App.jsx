@@ -9,7 +9,7 @@ import OurStory from "./components/pages/OurStory/OurStory.jsx";
 import Help from "./components/pages/Help/Help.jsx";
 import Blogs from "./components/pages/Blogs/Blogs.jsx";
 import Cart from "./components/pages/Cart/Cart.jsx";
-import Whishlist from "./components/pages/Wishlist/Wishlist.jsx";
+
 import Shop from "./components/pages/Shop/Shop.jsx";
 import MenSection from "./components/pages/Categories/MenSection/MenSection.jsx";
 import WomenSection from "./components/pages/Categories/WomenSection/WomenSection.jsx";
@@ -20,10 +20,11 @@ import Login from "./components/pages/authPages/Login.jsx";
 import Register from "./components/pages/authPages/Register.jsx";
 import CheckAuth from "./components/auth/CheckAuth.jsx";
 import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
+import Wishlist from './components/pages/Wishlist/Wishlist.jsx';
+import UserDashboard from "./components/pages/userDashboard/UserDashboard.jsx";
 import AuthLayout from "./components/pages/authPages/Layout.jsx";
 import LoginWithOTP from "./components/pages/authPages/otp/LoginWithOTP.jsx";
 import VerifyWithOTP from "./components/pages/authPages/otp/VerifyWithOTP.jsx";
-
 const App = () => {
   return (
     <Provider store={store}>
@@ -53,6 +54,7 @@ const App = () => {
               </CheckAuth>
             }
           />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/shop" element={<Shop />}>
             <Route path="menSection" element={<MenSection />} />
             <Route path="womenSection" element={<WomenSection />} />
@@ -67,6 +69,7 @@ const App = () => {
           </Route>
 
           <Route path="/unauth-page" element={<UnauthPage />} />
+          <Route path="/UserDashboard" element={<UserDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
