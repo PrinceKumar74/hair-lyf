@@ -25,6 +25,8 @@ import UserDashboard from "./components/pages/userDashboard/UserDashboard.jsx";
 import AuthLayout from "./components/pages/authPages/Layout.jsx";
 import LoginWithOTP from "./components/pages/authPages/otp/LoginWithOTP.jsx";
 import VerifyWithOTP from "./components/pages/authPages/otp/VerifyWithOTP.jsx";
+import ForgotPassword from "./components/pages/authPages/ForgotPassword.jsx";
+
 const App = () => {
   return (
     <Provider store={store}>
@@ -50,7 +52,7 @@ const App = () => {
             path="/wishlist"
             element={
               <CheckAuth>
-                <Whishlist />
+                <Wishlist />
               </CheckAuth>
             }
           />
@@ -65,7 +67,7 @@ const App = () => {
             <Route path="register" element={<Register />} />
             <Route path="login-with-otp" element={<LoginWithOTP />} />
             <Route path="verify-with-otp" element={<VerifyWithOTP />} />
-
+            <Route path="forgot-password" element={<ForgotPassword />} />
           </Route>
 
           <Route path="/unauth-page" element={<UnauthPage />} />
