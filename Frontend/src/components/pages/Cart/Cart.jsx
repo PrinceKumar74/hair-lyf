@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaTrash } from 'react-icons/fa';
 import {
-  removeFromCart,
+   removeFromCartAsync,
   incrementQuantity,
   decrementQuantity
 } from '../../../store/slice/cartSlice';
@@ -84,7 +84,7 @@ const Cart = () => {
                     </div>
                     <div className="flex-grow flex flex-col relative min-w-0">
                         <button
-                           onClick={() => dispatch(removeFromCart(itemId))}
+                           onClick={() => dispatch(removeFromCartAsync(itemId))}
                            className="absolute top-0 right-0 p-1 text-gray-400 hover:text-red-600 z-10"
                            aria-label="Remove item"
                         >
@@ -190,7 +190,7 @@ const Cart = () => {
                               )}
                            </div>
                            <button
-                              onClick={() => dispatch(removeFromCart(itemId))}
+                              onClick={() => dispatch(removeFromCartAsync(itemId))}
                               className="text-gray-500 hover:text-red-600 p-1 mt-auto"
                               aria-label="Remove item"
                            >

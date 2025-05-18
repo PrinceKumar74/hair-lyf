@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../../store/slice/cartSlice';
+import { addToCartAsync } from '../../../store/slice/cartSlice';
 import { addToWishlist } from '../../../store/slice/wishlistSlice';
 import { Images } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -143,7 +143,7 @@ const ProductDetailPage = () => {
       originalPrice:product.originalPrice,
       size: selectedLength
     };
-    dispatch(addToCart(newItem));
+    dispatch(addToCartAsync(newItem));
     console.log('Adding to cart:', newItem);
    
   };

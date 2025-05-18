@@ -2,7 +2,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromWishlist } from '../../../store/slice/wishlistSlice'; // Adjust path as needed
-import { addToCart } from '../../../store/slice/cartSlice'; // Adjust path as needed
+import { addToCartAsync } from '../../../store/slice/cartSlice'; // Adjust path as needed
 import { useNavigate } from 'react-router-dom';
 
 import EmptyWishlistImg from '/womanWithCart/emptyCart.png'; // Adjust path as needed
@@ -13,7 +13,7 @@ const Wishlist = () => {
   const navigate = useNavigate();
 
   const handleMoveToCart = (item) => {
-    dispatch(addToCart(item));
+    dispatch(addToCartAsync(item));
     dispatch(removeFromWishlist(item.id));
   };
 
