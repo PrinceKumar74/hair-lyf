@@ -5,7 +5,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: JSON.parse(localStorage.getItem('cart')) || [],
   reducers: {
-    addToCart: (state, action) => {
+    addToCartAsync: (state, action) => {
       const existingItem = state.find((item) => item.id === action.payload.id);
       if (existingItem) {
         existingItem.quantity += 1;
@@ -13,7 +13,7 @@ const cartSlice = createSlice({
         state.push({ ...action.payload, quantity: 1 });
       }
     },
-    removeFromCart: (state, action) => {
+    removeFromCartAsync: (state, action) => {
       return state.filter((item) => item.id !== action.payload);
     },
     incrementQuantity: (state, action) => {
@@ -40,8 +40,8 @@ export const selectTotalItems = (state) => {
 };
 
 export const {
-  addToCart,
-  removeFromCart,
+  addToCartAsync,
+  removeFromCartAsync,
   incrementQuantity,
   decrementQuantity,
 } = cartSlice.actions;

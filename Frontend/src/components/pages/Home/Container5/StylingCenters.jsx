@@ -7,42 +7,81 @@ const centers = [
   {
     image: delhi,
     label: 'Delhi',
+    description: 'Visit our flagship store in the heart of Delhi',
+    address: 'Connaught Place, New Delhi'
   },
   {
     image: mumbai,
     label: 'Mumbai',
+    description: 'Experience luxury hair care in Mumbai',
+    address: 'Bandra West, Mumbai'
   },
   {
     image: pune,
     label: 'Pune',
+    description: 'Premium hair extensions in Pune',
+    address: 'Koregaon Park, Pune'
   },
 ];
 
 export default function OfflineCenters() {
   return (
-    <div className="py-12 px-4 max-w-6xl mx-auto text-center">
-      <h2 className="text-2xl md:text-3xl font-semibold tracking-wide mb-6 uppercase">
-        Our Offline Centers
-      </h2>
+    <section className="py-20 px-4 bg-gradient-to-b from-white via-gray-50 to-white">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <span className="relative inline-block">
+              Our Offline Centers
+              <div className="absolute -bottom-4 left-0 right-0 h-1 bg-red-600 rounded-full transform scale-x-75"></div>
+            </span>
+          </h2>
+          <p className="text-gray-700 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            Visit our premium locations to experience our exclusive collection of hair extensions. 
+            Book a consultation with our experts today.
+          </p>
+        </div>
 
-      <hr className="border-t border-gray-400 w-3/4 mx-auto mb-8" />
+        {/* Centers Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 px-4 md:px-8">
+          {centers.map((center, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center group"
+            >
+              {/* Circle Container */}
+              <div className="relative mb-6 transition-transform duration-500 ease-out transform group-hover:-translate-y-2">
+                <div className="w-72 h-72 rounded-full border-2 border-red-600 flex items-center justify-center bg-white shadow-lg transition-all duration-300 group-hover:shadow-2xl overflow-hidden">
+                  <div className="w-48 h-48 relative transition-transform duration-300 group-hover:scale-110">
+                    <img 
+                      src={center.image} 
+                      alt={center.label} 
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                {/* Decorative Elements */}
+                <div className="absolute -inset-0.5 rounded-full bg-red-600 opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
+                <div className="absolute -inset-2 rounded-full border border-red-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
 
-      <p className="text-gray-700 text-lg md:text-xl mb-12 max-w-3xl mx-auto leading-relaxed">
-        We Currently Have Two Offline Centers Where You Can Explore Our Premium Hair
-        Extensions In Person. Visit Us For Expert Consultations And A Hands-On Experience!
-      </p>
+              {/* Text Content */}
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{center.label}</h3>
+                <p className="text-gray-600 mb-3 leading-relaxed">{center.description}</p>
+                <p className="text-sm text-red-600 font-medium">{center.address}</p>
+              </div>
+            </div>
+          ))}
+        </div>
 
-      <div className="flex flex-col md:flex-row items-center justify-center gap-10">
-        {centers.map((center, index) => (
-          <div
-            key={index}
-            className="w-80 h-80 border-2 border-red-600 rounded-full flex flex-col items-center justify-center overflow-hidden p-8"
-          >
-            <img src={center.image} alt={center.label} className="w-52 h-52 object-contain mb-2" />
-            <span className="text-black font-medium">{center.label}</span>
-          </div>
-        ))}
+        {/* Bottom CTA */}
+        <div className="text-center mt-16">
+          <p className="text-gray-600 text-lg">
+            Ready to transform your look? Visit us at your nearest center.
+          </p>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
