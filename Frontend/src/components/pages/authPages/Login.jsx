@@ -1,8 +1,8 @@
-// Login.jsx
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { loginUser } from '../../../store/slice/authSlice';
+import login from '../../../../public/login.png'; // Adjust the path as necessary
 
 const Login = () => {
   const [formData, setFormData] = useState({
