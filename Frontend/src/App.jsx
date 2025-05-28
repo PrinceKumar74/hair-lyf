@@ -96,7 +96,7 @@ import OurStory from "./components/pages/OurStory/OurStory.jsx";
 import Help from "./components/pages/Help/Help.jsx";
 import Blogs from "./components/pages/Blogs/Blogs.jsx";
 import Cart from "./components/pages/Cart/Cart.jsx";
-import Whishlist from "./components/pages/Wishlist/Wishlist.jsx";
+
 import Shop from "./components/pages/Shop/Shop.jsx";
 import MenSection from "./components/pages/Categories/MenSection/MenSection.jsx";
 import WomenSection from "./components/pages/Categories/WomenSection/WomenSection.jsx";
@@ -107,11 +107,12 @@ import Login from "./components/pages/authPages/Login.jsx";
 import Register from "./components/pages/authPages/Register.jsx";
 import CheckAuth from "./components/auth/CheckAuth.jsx";
 import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
+import Wishlist from './components/pages/Wishlist/Wishlist.jsx';
+import UserDashboard from "./components/pages/userDashboard/UserDashboard.jsx";
 import AuthLayout from "./components/pages/authPages/Layout.jsx";
 import LoginWithOTP from "./components/pages/authPages/otp/LoginWithOTP.jsx";
 import VerifyWithOTP from "./components/pages/authPages/otp/VerifyWithOTP.jsx";
 import AdminDashboard from "./components/admin/AdminDashboard.jsx";
-
 const MainLayout = ({ children }) => {
   return (
     <>
@@ -121,6 +122,7 @@ const MainLayout = ({ children }) => {
     </>
   );
 };
+import ForgotPassword from "./components/pages/authPages/ForgotPassword.jsx";
 
 const App = () => {
   return (
@@ -156,6 +158,33 @@ const App = () => {
               <Route path="womenSection" element={<WomenSection />} />
             </Route>
             <Route path="/unauth-page" element={<UnauthPage />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/ourStory" element={<OurStory />} />
+          <Route path="/tryOn" element={<TryOn />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/product/:id" element={<ProductDetailPage />} />
+          {/* Cart Page -- with Protected Route */}
+          <Route
+            path="/cart"
+            element={
+              <CheckAuth>
+                <Cart />
+              </CheckAuth>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <CheckAuth>
+                <Wishlist />
+              </CheckAuth>
+            }
+          />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/shop" element={<Shop />}>
+            <Route path="menSection" element={<MenSection />} />
+            <Route path="womenSection" element={<WomenSection />} />
           </Route>
 
           {/* Auth routes */}
@@ -171,6 +200,12 @@ const App = () => {
 
           {/* 404 - Using MainLayout for consistency or not, depending on your preference */}
           <Route path="*" element={<MainLayout><NotFound /></MainLayout>} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+          </Route>
+
+          <Route path="/unauth-page" element={<UnauthPage />} />
+          <Route path="/UserDashboard" element={<UserDashboard />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </Provider>
