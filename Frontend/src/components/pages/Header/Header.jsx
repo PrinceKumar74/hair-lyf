@@ -21,22 +21,12 @@ import TopHeader from "./TopHeader/TopHeader";
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // State for mobile menu and search overlay
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activePage, setActivePage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Redux integration to get total items from cart
   const totalItems = useSelector(selectTotalItems);
-  console.log("totalItems: ", totalItems);
-
-  // Redux integration to get total items from wishlist
   const wishlistCount = useSelector(selectWishlistCount);
-  console.log("wishlistCount: ", wishlistCount);
-
-  // Navigation configuration
   const navigationItems = [
     { label: "Home", icon: <HomeIcon className="w-5 h-5" />, to: "/" },
     {

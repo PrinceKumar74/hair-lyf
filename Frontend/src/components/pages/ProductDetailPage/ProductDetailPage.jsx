@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCartAsync } from '../../../store/slice/cartSlice';
 import { addToWishlist } from '../../../store/slice/wishlistSlice';
-import { Images } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { HeartIcon } from '@heroicons/react/24/outline';
 
@@ -19,7 +18,6 @@ const ProductDetailPage = () => {
   const [productImages, setProductImages] = useState([]);
   const dispatch = useDispatch();
 
-  // Default placeholder images
   const placeholderImages = [
     '/tempProductimg/pic1.png',
     '/tempProductimg/pic2.png',
@@ -36,7 +34,6 @@ const ProductDetailPage = () => {
         const item = data.products.find((item) => item._id === id);
 
         if (item) {
-          // Transform image data to include URLs only
           const itemWithUrls = { 
             ...item, 
             imageUrls: item.images?.map((imageobj) =>{ 
@@ -45,28 +42,19 @@ const ProductDetailPage = () => {
             }).filter(Boolean) || [] ,
             
           };
-          console.log("itemWithUrls: ", itemWithUrls);
           setProductDetail(itemWithUrls);
-          
-          // Use actual images if available, otherwise use placeholders
           const images = itemWithUrls.imageUrls?.length > 0 
             ? itemWithUrls.imageUrls 
             : placeholderImages;
             
           
           setProductImages(images);
-          
-          // Set the first image as the main image
           if (images.length > 0) {
             setSelectedMainImage(images[0]);
           }
-          
-          // Initialize other selections based on product data
           if (itemWithUrls.variants?.length > 0) {
             setSelectedLength(itemWithUrls.variants[0].size);
           }
-          
-          // Set default color (placeholder as it seems color data isn't in the API)
           const placeholderColors = [
             { name: 'Black', hex: '#000000', stock: 5 },
             { name: 'Brown', hex: '#ab8e5b', stock: 5 },
@@ -74,7 +62,6 @@ const ProductDetailPage = () => {
           setSelectedColor(placeholderColors[0]);
         } else {
           setProductDetail(null);
-          // Use placeholder images if product not found
           setProductImages(placeholderImages);
           if (placeholderImages.length > 0) {
             setSelectedMainImage(placeholderImages[0]);
@@ -83,7 +70,6 @@ const ProductDetailPage = () => {
       } catch (error) {
         console.error("Error fetching product:", error);
         setProductDetail(null);
-        // Use placeholder images on error
         setProductImages(placeholderImages);
         if (placeholderImages.length > 0) {
           setSelectedMainImage(placeholderImages[0]);
@@ -96,7 +82,6 @@ const ProductDetailPage = () => {
     fetchProduct();
   }, [id]);
 
-  // Handle loading and error states
   if (isLoading) {
     return <div className="max-w-7xl mx-auto p-4 md:p-8 text-center">Loading product details...</div>;
   }
