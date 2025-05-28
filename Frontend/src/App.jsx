@@ -1,135 +1,53 @@
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import React from "react";
-// import TryOn from "./components/pages/TryOn/TryOn.jsx";
-// import { Provider } from "react-redux";
-// import { store } from "./store/store.js";
-// import Header from "./components/pages/Header/Header.jsx";
-// import Home from "./components/pages/Home/Home.jsx";
-// import OurStory from "./components/pages/OurStory/OurStory.jsx";
-// import Help from "./components/pages/Help/Help.jsx";
-// import Blogs from "./components/pages/Blogs/Blogs.jsx";
-// import Cart from "./components/pages/Cart/Cart.jsx";
-// import Whishlist from "./components/pages/Wishlist/Wishlist.jsx";
-// import Shop from "./components/pages/Shop/Shop.jsx";
-// import MenSection from "./components/pages/Categories/MenSection/MenSection.jsx";
-// import WomenSection from "./components/pages/Categories/WomenSection/WomenSection.jsx";
-// import Footer from "./components/pages/Footer/Footer.jsx";
-// import UnauthPage from "./components/pages/notFound/UnAuth.jsx";
-// import NotFound from "./components/pages/notFound/NotFound.jsx";
-// import Login from "./components/pages/authPages/Login.jsx";
-// import Register from "./components/pages/authPages/Register.jsx";
-// import CheckAuth from "./components/auth/CheckAuth.jsx";
-// import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
-// import AuthLayout from "./components/pages/authPages/Layout.jsx";
-// import LoginWithOTP from "./components/pages/authPages/otp/LoginWithOTP.jsx";
-// import VerifyWithOTP from "./components/pages/authPages/otp/VerifyWithOTP.jsx";
-// import AdminDashboard from "./components/admin/AdminDashboard.jsx";
-
-// const App = () => {
-//   return (
-//     <Provider store={store}>
-//       <Router>
-//         <Header />
-//         <Routes>
-//           <Route path="/" element={<Home />} />
-//           <Route path="/ourStory" element={<OurStory />} />
-//           <Route path="/tryOn" element={<TryOn />} />
-//           <Route path="/help" element={<Help />} />
-//           <Route path="/blogs" element={<Blogs />} />
-//           <Route path="/product/:id" element={<ProductDetailPage />} />
-//           {/* Cart Page -- with Protected Route */}
-//           <Route
-//             path="/cart"
-//             element={
-//               <CheckAuth>
-//                 <Cart />
-//               </CheckAuth>
-//             }
-//           />
-//           <Route
-//             path="/wishlist"
-//             element={
-//               <CheckAuth>
-//                 <Whishlist />
-//               </CheckAuth>
-//             }
-//           />
-//           <Route path="/shop" element={<Shop />}>
-//             <Route path="menSection" element={<MenSection />} />
-//             <Route path="womenSection" element={<WomenSection />} />
-//           </Route>
-
-//           <Route path="/" element={<AuthLayout />}>
-//             <Route path="login" element={<Login />} />
-//             <Route path="register" element={<Register />} />
-//             <Route path="login-with-otp" element={<LoginWithOTP />} />
-//             <Route path="verify-with-otp" element={<VerifyWithOTP />} />
-
-//           </Route>
-
-//           <Route path="/unauth-page" element={<UnauthPage />} />
-//           <Route path="*" element={<NotFound />} />
-
-
-//           {/* admin */}
-//           <Route path="/admin-dashboard" element={<AdminDashboard />} />
-//         </Routes>
-//         <Footer />
-//       </Router>
-//     </Provider>
-//   );
-// };
-// export default App;
-
-
-
-
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
-import TryOn from "./components/pages/TryOn/TryOn.jsx";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
+
+// Layouts
 import Header from "./components/pages/Header/Header.jsx";
+import Footer from "./components/pages/Footer/Footer.jsx";
+import AuthLayout from "./components/pages/authPages/Layout.jsx";
+
+// Pages
 import Home from "./components/pages/Home/Home.jsx";
 import OurStory from "./components/pages/OurStory/OurStory.jsx";
+import TryOn from "./components/pages/TryOn/TryOn.jsx";
 import Help from "./components/pages/Help/Help.jsx";
 import Blogs from "./components/pages/Blogs/Blogs.jsx";
-import Cart from "./components/pages/Cart/Cart.jsx";
-
 import Shop from "./components/pages/Shop/Shop.jsx";
 import MenSection from "./components/pages/Categories/MenSection/MenSection.jsx";
 import WomenSection from "./components/pages/Categories/WomenSection/WomenSection.jsx";
-import Footer from "./components/pages/Footer/Footer.jsx";
-import UnauthPage from "./components/pages/notFound/UnAuth.jsx";
-import NotFound from "./components/pages/notFound/NotFound.jsx";
+import Cart from "./components/pages/Cart/Cart.jsx";
+import Wishlist from "./components/pages/Wishlist/Wishlist.jsx";
+import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
+import ForgotPassword from "./components/pages/authPages/ForgotPassword.jsx";
 import Login from "./components/pages/authPages/Login.jsx";
 import Register from "./components/pages/authPages/Register.jsx";
-import CheckAuth from "./components/auth/CheckAuth.jsx";
-import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
-import Wishlist from './components/pages/Wishlist/Wishlist.jsx';
-import UserDashboard from "./components/pages/userDashboard/UserDashboard.jsx";
-import AuthLayout from "./components/pages/authPages/Layout.jsx";
 import LoginWithOTP from "./components/pages/authPages/otp/LoginWithOTP.jsx";
 import VerifyWithOTP from "./components/pages/authPages/otp/VerifyWithOTP.jsx";
+import UnauthPage from "./components/pages/notFound/UnAuth.jsx";
+import NotFound from "./components/pages/notFound/NotFound.jsx";
+import UserDashboard from "./components/pages/userDashboard/UserDashboard.jsx";
 import AdminDashboard from "./components/admin/AdminDashboard.jsx";
-const MainLayout = ({ children }) => {
-  return (
-    <>
-      <Header />
-      {children}
-      <Footer />
-    </>
-  );
-};
-import ForgotPassword from "./components/pages/authPages/ForgotPassword.jsx";
+
+// Middleware
+import CheckAuth from "./components/auth/CheckAuth.jsx";
+
+// Layout for main pages
+const MainLayout = () => (
+  <>
+    <Header />
+    <Outlet />
+    <Footer />
+  </>
+);
 
 const App = () => {
   return (
     <Provider store={store}>
       <Router>
         <Routes>
-          {/* Main routes with Header and Footer */}
+          {/* Public and Main Routes with Header/Footer */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/ourStory" element={<OurStory />} />
@@ -137,6 +55,16 @@ const App = () => {
             <Route path="/help" element={<Help />} />
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/product/:id" element={<ProductDetailPage />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/unauth-page" element={<UnauthPage />} />
+
+            {/* Shop with nested sections */}
+            <Route path="/shop" element={<Shop />}>
+              <Route path="menSection" element={<MenSection />} />
+              <Route path="womenSection" element={<WomenSection />} />
+            </Route>
+
+            {/* Protected Routes */}
             <Route
               path="/cart"
               element={
@@ -149,45 +77,13 @@ const App = () => {
               path="/wishlist"
               element={
                 <CheckAuth>
-                  <Whishlist />
+                  <Wishlist />
                 </CheckAuth>
               }
             />
-            <Route path="/shop" element={<Shop />}>
-              <Route path="menSection" element={<MenSection />} />
-              <Route path="womenSection" element={<WomenSection />} />
-            </Route>
-            <Route path="/unauth-page" element={<UnauthPage />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/ourStory" element={<OurStory />} />
-          <Route path="/tryOn" element={<TryOn />} />
-          <Route path="/help" element={<Help />} />
-          <Route path="/blogs" element={<Blogs />} />
-          <Route path="/product/:id" element={<ProductDetailPage />} />
-          {/* Cart Page -- with Protected Route */}
-          <Route
-            path="/cart"
-            element={
-              <CheckAuth>
-                <Cart />
-              </CheckAuth>
-            }
-          />
-          <Route
-            path="/wishlist"
-            element={
-              <CheckAuth>
-                <Wishlist />
-              </CheckAuth>
-            }
-          />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/shop" element={<Shop />}>
-            <Route path="menSection" element={<MenSection />} />
-            <Route path="womenSection" element={<WomenSection />} />
           </Route>
 
-          {/* Auth routes */}
+          {/* Auth Layout Routes */}
           <Route path="/" element={<AuthLayout />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
@@ -195,16 +91,11 @@ const App = () => {
             <Route path="verify-with-otp" element={<VerifyWithOTP />} />
           </Route>
 
-          {/* Admin routes (no Header/Footer) */}
+          {/* Standalone pages without Header/Footer */}
+          <Route path="/UserDashboard" element={<UserDashboard />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
-          {/* 404 - Using MainLayout for consistency or not, depending on your preference */}
-          <Route path="*" element={<MainLayout><NotFound /></MainLayout>} />
-            <Route path="forgot-password" element={<ForgotPassword />} />
-          </Route>
-
-          <Route path="/unauth-page" element={<UnauthPage />} />
-          <Route path="/UserDashboard" element={<UserDashboard />} />
+          {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
