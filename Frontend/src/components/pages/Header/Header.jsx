@@ -45,7 +45,7 @@ export default function Header() {
       to: "/ourStory",
     },
     {
-      label: "3D Try-On",
+      label: "2d Try-On",
       icon: <CubeTransparentIcon className="w-5 h-5" />,
       to: "/tryOn",
     },

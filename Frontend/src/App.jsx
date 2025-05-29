@@ -22,6 +22,15 @@ import CheckAuth from "./components/auth/CheckAuth.jsx";
 import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
 import Wishlist from './components/pages/Wishlist/Wishlist.jsx';
 import UserDashboard from "./components/pages/userDashboard/UserDashboard.jsx";
+import ForgotPassword from "./components/pages/ForgotPassword/ForgotPassword.jsx";
+import NewPassword from "./components/pages/ForgotPassword/NewPassword.jsx";
+import Checkout from "./components/pages/Checkout/Checkout.jsx";
+import Payment from "./components/pages/Payment/Payment.jsx";
+import PaymentStatus from "./components/pages/Payment/PaymentStatus.jsx";
+import Sample from "./components/pages/TryOn/Sample.jsx";
+import SwapHairForm from "./components/pages/TryOn/SwapHairForm[1].jsx";
+import MenProducts from "./components/pages/products/MenProducts.jsx";
+import WomenProducts from "./components/pages/products/WomenProducts.jsx";
 const App = () => {
   return (
     <Provider store={store}>
@@ -29,8 +38,12 @@ const App = () => {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/menproducts" element={<MenProducts />} />
+          <Route path="/womenproducts" element={<WomenProducts />} />
           <Route path="/ourStory" element={<OurStory />} />
           <Route path="/tryOn" element={<TryOn />} />
+          <Route path ="/sample" element={<Sample />} />
+          <Route path="/Swap" element={<SwapHairForm/>}/>
           <Route path="/help" element={<Help />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
@@ -50,7 +63,13 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/unauth-page" element={<UnauthPage />} />
           <Route path="/UserDashboard" element={<UserDashboard />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/NewPassword" element={<NewPassword />} />
           <Route path="*" element={<NotFound />} />
+          <Route path ="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/paymentStatus" element={<PaymentStatus />} />
+
         </Routes>
         <Footer />
       </Router>
