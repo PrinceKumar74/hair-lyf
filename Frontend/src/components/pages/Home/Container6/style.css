@@ -1,0 +1,15 @@
+.testimonial-container {
+    width: 100%;
+    text-align: left;
+  }
+  
+  .testimonial-text {
+    max-height: 230px; /* Set a fixed height */
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+  
+  .testimonial-text.expanded {
+    overflow-y: auto; /* Enable scrolling when expanded */
+  }
+  
