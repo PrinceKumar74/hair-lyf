@@ -63,7 +63,7 @@ const App = () => {
             path="/wishlist"
             element={
               <CheckAuth>
-                <Whishlist />
+                <Wishlist />
               </CheckAuth>
             }
           />
