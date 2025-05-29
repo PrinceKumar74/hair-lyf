@@ -42,25 +42,11 @@
 
 // export default HairCategories;
 
-// src/components/ShopByCategory.jsx
 import React from 'react';
-// Make sure these paths are correct for your project structure
-// If your 'public' folder is at the root of your Vite project,
-// the paths would typically be '/hair/girlModel.jpeg' and '/hair/boyModel.png'
-// when Vite serves the files.
-// For import statements like this, ensure the images are within your src directory
-// or set up Vite to handle them correctly from the public directory.
-// For simplicity, I'm assuming they are in public and accessed via URL.
-// If you want to import them directly, move them to src or configure Vite.
 
-// Using direct public paths as strings for the src attribute of img tags
-const girlModel = '/hair/girlModel.jpeg'; // Assuming it's in public/hair/
-const boyModel = '/hair/boyModel.png';   // Assuming it's in public/hair/
+const girlModel = '/hair/girlModel.jpeg';
+const boyModel = '/hair/boyModel.png';
 
-// If you have react-router-dom installed and set up for navigation:
-// import { Link } from "react-router-dom";
-
-// Placeholder for Link if react-router-dom is not used or for styling purposes
 const Link = ({ to, children, className }) => <a href={to} className={className}>{children}</a>;
 
 const ShopByCategory = () => {
@@ -69,32 +55,29 @@ const ShopByCategory = () => {
       name: 'Men',
       description: 'Explore our latest and trendy accessories',
       image: boyModel,
-      link: '/menProducts', // Link for react-router-dom
+      link: '/menProducts',
     },
     {
       name: 'Women',
       description: 'Explore our latest and trendy accessories',
       image: girlModel,
-      link: '/womenProducts', // Link for react-router-dom
+      link: '/womenProducts',
     },
   ];
 
   return (
     <section className="py-16 md:py-24 bg-white font-['Inter']">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Title */}
         <h2 className="text-4xl sm:text-5xl font-bold text-center text-amber-700 mb-12 md:mb-16 tracking-tight">
           Shop by Category
         </h2>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
           {categories.map((category) => (
             <div
               key={category.name}
               className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row items-center p-6 md:p-8 border border-gray-200 hover:shadow-xl transition-shadow duration-300"
             >
-              {/* Content Section */}
               <div className="md:mr-6 text-center md:text-left w-full md:w-2/3">
                 <h3 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-2">
                   {category.name}
@@ -124,15 +107,13 @@ const ShopByCategory = () => {
                 </Link>
               </div>
 
-              {/* Image Section */}
               <div className="mt-6 md:mt-0 md:ml-auto w-full md:w-1/3 flex-shrink-0">
                 <img
                   src={category.image}
                   alt={category.name}
                   className="w-36 h-36 sm:w-40 sm:h-40 lg:w-48 lg:h-48 object-cover rounded-lg mx-auto md:mx-0 shadow-md"
                   onError={(e) => {
-                    // Fallback if image fails to load
-                    e.target.onerror = null; 
+                    e.target.onerror = null;
                     e.target.src="https://placehold.co/200x200/E2E8F0/9CA3AF?text=Image+Not+Found";
                   }}
                 />
@@ -146,17 +127,3 @@ const ShopByCategory = () => {
 };
 
 export default ShopByCategory;
-
-// To use this component in your App.js or another page (e.g., HomePage.jsx):
-// import ShopByCategory from './components/ShopByCategory'; // Adjust path as needed
-//
-// function HomePage() {
-//   return (
-//     <div>
-//       {/* <HeroSection /> from previous example */}
-//       <ShopByCategory />
-//       {/* Other sections of your app */}
-//     </div>
-//   );
-// }
-// export default HomePage;

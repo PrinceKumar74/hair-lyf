@@ -126,16 +126,33 @@ import React from 'react';
 
 const HeroSection = () => {
   return (
-    <section className="bg-gradient-to-br from-pink-50 via-rose-50 to-amber-50 py-16 md:py-24 lg:py-32 font-['Inter'] overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Text Content */}
+    <section className="relative h-screen font-['Inter'] overflow-hidden">
+      {/* Video Background */}
+      <div className="absolute top-0 left-0 w-full h-full -z-10">
+        <video
+          className="w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-posing-with-a-long-black-wig-44237-large.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+          Please update your browser or use a different one.
+        </video>
+        {/* Optional: Add a semi-transparent overlay for better text readability */}
+        <div className="absolute inset-0 bg-black opacity-30"></div>
+      </div>
+
+      {/* Text Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="mb-12 md:mb-16">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800 leading-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
             Unlock your True Beauty
             <br />
-            with our <span className="text-amber-600">Exquisite Wigs</span>
+            with our <span className="text-amber-400">Exquisite Wigs</span>
           </h1>
-          <p className="mt-6 text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="mt-6 text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto">
             Discover our premium collection of hair extensions and wigs for every style and occasion.
           </p>
           <div className="mt-10">
@@ -145,54 +162,22 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Video Section */}
-        <div className="max-w-4xl mx-auto relative"> {/* Controls the max width of the video container */}
-          <div className="aspect-w-16 aspect-h-9 rounded-xl shadow-2xl overflow-hidden border-4 border-white bg-gray-800">
-            {/*
-              IMPORTANT: Replace with your video source.
-              The video should ideally be in a 16:9 aspect ratio for best fit.
-            */}
-            <video
-              className="w-full h-full object-cover"
-              // src="YOUR_VIDEO_URL.mp4" // <<<< REPLACE THIS WITH YOUR VIDEO FILE PATH OR URL
-              // poster="YOUR_POSTER_IMAGE_URL.jpg" // Optional: poster image before video loads
-              autoPlay
-              loop
-              muted  // Muted is often required for autoplay to work in browsers
-              playsInline // Important for iOS autoplay and to play inline without going fullscreen
-              // controls // Uncomment to show default video controls
-            >
-              {/* Provide a source URL for your video. You can have multiple source tags for different formats. */}
-              {/* Example video - REPLACE THIS with your actual video */}
-              <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-posing-with-a-long-black-wig-44237-large.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-              Please update your browser or use a different one.
-            </video>
-            {/*
-              If you don't have a video source yet, or if the video fails to load,
-              you can use a placeholder div like this (remove or comment out the <video> tag above):
-            */}
-            {/*
-            <div className="w-full h-full flex flex-col items-center justify-center bg-gray-200">
-              <svg className="w-16 h-16 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.55a1 1 0 01.45.83V15a1 1 0 01-1.45.83L15 14.17V10zM4 6h11M4 10h11M4 14h5m0 0l-3.5-3.5M10 18h1m-7-4h7m4 0h1M4 6h11M4 10h11M4 14h5m0 0l-3.5-3.5M10 18h1"></path></svg>
-              <p className="text-gray-500 text-xl">Your Awesome Video Here</p>
-              <p className="text-gray-400 text-sm">Video loading or not available.</p>
-            </div>
-            */}
+        {/* Decorative elements (optional) - ensure they are visible on the video */}
+        <div className="hidden lg:block">
+          <div
+            className="absolute -bottom-10 -left-16 w-32 h-32 bg-pink-500/30 rounded-full blur-xl animate-blob"
+            style={{ animationDelay: '0s' }}
+          >
           </div>
-
-          {/* Decorative elements (optional, inspired by the small overlays in the original image) */}
-          {/* These are positioned relative to the 'max-w-4xl mx-auto' div */}
-          <div className="hidden lg:block"> {/* Hide on smaller screens to prevent clutter */}
-            <div 
-                className="absolute -bottom-10 -left-16 w-32 h-32 bg-pink-200/50 rounded-full -z-10 blur-xl animate-blob">
-            </div>
-            <div 
-                className="absolute -top-12 -right-16 w-36 h-36 bg-amber-200/50 rounded-xl -z-10 blur-xl transform rotate-12 animate-blob animation-delay-2000">
-            </div>
-             <div 
-                className="absolute bottom-[-4rem] right-[20%] w-24 h-24 bg-rose-200/60 rounded-full -z-10 blur-lg animate-blob animation-delay-4000">
-            </div>
+          <div
+            className="absolute -top-12 -right-16 w-36 h-36 bg-amber-500/30 rounded-xl blur-xl transform rotate-12 animate-blob"
+            style={{ animationDelay: '2s' }}
+          >
+          </div>
+          <div
+            className="absolute bottom-[-4rem] right-[20%] w-24 h-24 bg-rose-500/40 rounded-full blur-lg animate-blob"
+            style={{ animationDelay: '4s' }}
+          >
           </div>
         </div>
       </div>
@@ -202,18 +187,6 @@ const HeroSection = () => {
 
 export default HeroSection;
 
-// To use this component in your App.js or another page:
-// import HeroSection from './components/HeroSection'; // Adjust path as needed
-//
-// function App() {
-//   return (
-//     <div>
-//       <HeroSection />
-//       {/* Other sections of your app */}
-//     </div>
-//   );
-// }
-// export default App;
 
 
 
