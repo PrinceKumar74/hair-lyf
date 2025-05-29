@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectTotalItems } from "../../../store/slice/cartSlice";
+import { selectWishlistCount } from "../../../store/slice/wishlistSlice";
 import {
   HomeIcon,
   BookOpenIcon,
@@ -20,22 +21,29 @@ import TopHeader from "./TopHeader/TopHeader";
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // State for mobile menu and search overlay
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activePage, setActivePage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Redux integration to get total items from cart
   const totalItems = useSelector(selectTotalItems);
-
-  // Navigation configuration
+  const wishlistCount = useSelector(selectWishlistCount);
   const navigationItems = [
     { label: "Home", icon: <HomeIcon className="w-5 h-5" />, to: "/" },
-    { label: "Our Story", icon: <BookOpenIcon className="w-5 h-5" />, to: "/ourStory" },
-    { label: "3D Try-On", icon: <CubeTransparentIcon className="w-5 h-5" />, to: "/tryOn" },
-    { label: "Blogs", icon: <NewspaperIcon className="w-5 h-5" />, to: "/blogs" },
+    {
+      label: "Our Story",
+      icon: <BookOpenIcon className="w-5 h-5" />,
+      to: "/ourStory",
+    },
+    {
+      label: "3D Try-On",
+      icon: <CubeTransparentIcon className="w-5 h-5" />,
+      to: "/tryOn",
+    },
+    {
+      label: "Blogs",
+      icon: <NewspaperIcon className="w-5 h-5" />,
+      to: "/blogs",
+    },
     { label: "Help", icon: <LifebuoyIcon className="w-5 h-5" />, to: "/help" },
   ];
 
@@ -109,7 +117,11 @@ export default function Header() {
           </Link>
         </div>
 
-        <nav role="navigation" aria-label="Main navigation" className="hidden md:flex space-x-6 lg:space-x-8 items-center">
+        <nav
+          role="navigation"
+          aria-label="Main navigation"
+          className="hidden md:flex space-x-6 lg:space-x-8 items-center"
+        >
           {navigationItems.map((item) => (
             <NavItem
               key={item.label}
@@ -127,8 +139,13 @@ export default function Header() {
           <Link to="/profile" aria-label="Account" className="group">
             <UserIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
           </Link>
-          <Link to="/wishlist" aria-label="Wishlist" className="group">
+          <Link to="/wishlist" aria-label="Wishlist" className="group relative">
             <HeartIcon className="w-6 h-6 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
+            {wishlistCount > 0 && (
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                {wishlistCount}
+              </span>
+            )}
           </Link>
           <button
             aria-label="Search"
@@ -149,14 +166,18 @@ export default function Header() {
         </div>
 
         <div className="md:hidden flex space-x-4 items-center">
-          <Link to="/wishlist" aria-label="Wishlist">
-            <HeartIcon className="w-5 h-5 text-gray-800" />
+          <Link to="/wishlist" aria-label="Wishlist" className="group relative">
+            <HeartIcon className="w-5 h-5 text-gray-800 group-hover:text-red-600 transition-colors duration-300" />
+            {wishlistCount > 0 && (
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                {wishlistCount}
+              </span>
+            )}
           </Link>
           <button
             aria-label="Search"
             aria-expanded={isSearchOpen}
             onClick={toggleSearch}
-            
           >
             <MagnifyingGlassIcon className="w-5 h-5 text-gray-800 " />
           </button>
@@ -175,7 +196,11 @@ export default function Header() {
             aria-controls="mobile-menu"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
+            {isMenuOpen ? (
+              <XMarkIcon className="w-6 h-6" />
+            ) : (
+              <Bars3Icon className="w-6 h-6" />
+            )}
           </button>
         </div>
       </div>
@@ -200,7 +225,11 @@ export default function Header() {
               />
             ))}
             <div className="flex justify-start gap-8 px-6 py-4 border-t border-gray-100">
-              <Link to="/profile" aria-label="Account" className="flex items-center gap-2">
+              <Link
+                to="/profile"
+                aria-label="Account"
+                className="flex items-center gap-2"
+              >
                 <UserIcon className="w-5 h-5" />
                 <span className="text-sm">Account</span>
               </Link>
@@ -226,7 +255,11 @@ export default function Header() {
                 autoFocus
               />
             </div>
-            <button type="button" onClick={toggleSearch} className="ml-4 text-red-600 font-medium">
+            <button
+              type="button"
+              onClick={toggleSearch}
+              className="ml-4 text-red-600 font-medium"
+            >
               Cancel
             </button>
           </form>
@@ -241,13 +274,17 @@ function NavItem({ icon, label, active, to, onClick, mobile = false }) {
     <Link
       to={to}
       onClick={() => onClick(label)}
-      className={`flex items-center gap-2 ${mobile ? "w-full py-3 px-6 hover:bg-gray-50" : ""}`}
+      className={`flex items-center gap-2 ${
+        mobile ? "w-full py-3 px-6 hover:bg-gray-50" : ""
+      }`}
       aria-current={active ? "page" : undefined}
     >
       {icon}
       <span
         className={`uppercase text-sm tracking-wide transition-colors duration-300 ${
-          active ? "text-red-600 font-medium" : "text-gray-800 hover:text-red-600"
+          active
+            ? "text-red-600 font-medium"
+            : "text-gray-800 hover:text-red-600"
         } ${!mobile && active ? "border-b-2 border-red-600 pb-1" : ""}`}
       >
         {label}

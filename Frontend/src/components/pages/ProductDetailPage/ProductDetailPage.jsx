@@ -2,7 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../../store/slice/cartSlice';
+import { addToCartAsync } from '../../../store/slice/cartSlice';
+import { addToWishlist } from '../../../store/slice/wishlistSlice';
+import { Link } from 'react-router-dom';
+import { HeartIcon } from '@heroicons/react/24/outline';
+
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -14,7 +18,6 @@ const ProductDetailPage = () => {
   const [productImages, setProductImages] = useState([]);
   const dispatch = useDispatch();
 
-  // Default placeholder images
   const placeholderImages = [
     '/tempProductimg/pic1.png',
     '/tempProductimg/pic2.png',
@@ -31,7 +34,6 @@ const ProductDetailPage = () => {
         const item = data.products.find((item) => item._id === id);
 
         if (item) {
-          // Transform image data to include URLs only
           const itemWithUrls = { 
             ...item, 
             imageUrls: item.images?.map((imageobj) =>{ 
@@ -40,28 +42,19 @@ const ProductDetailPage = () => {
             }).filter(Boolean) || [] ,
             
           };
-          console.log("itemWithUrls: ", itemWithUrls);
           setProductDetail(itemWithUrls);
-          
-          // Use actual images if available, otherwise use placeholders
           const images = itemWithUrls.imageUrls?.length > 0 
             ? itemWithUrls.imageUrls 
             : placeholderImages;
             
           
           setProductImages(images);
-          
-          // Set the first image as the main image
           if (images.length > 0) {
             setSelectedMainImage(images[0]);
           }
-          
-          // Initialize other selections based on product data
           if (itemWithUrls.variants?.length > 0) {
             setSelectedLength(itemWithUrls.variants[0].size);
           }
-          
-          // Set default color (placeholder as it seems color data isn't in the API)
           const placeholderColors = [
             { name: 'Black', hex: '#000000', stock: 5 },
             { name: 'Brown', hex: '#ab8e5b', stock: 5 },
@@ -69,7 +62,6 @@ const ProductDetailPage = () => {
           setSelectedColor(placeholderColors[0]);
         } else {
           setProductDetail(null);
-          // Use placeholder images if product not found
           setProductImages(placeholderImages);
           if (placeholderImages.length > 0) {
             setSelectedMainImage(placeholderImages[0]);
@@ -78,7 +70,6 @@ const ProductDetailPage = () => {
       } catch (error) {
         console.error("Error fetching product:", error);
         setProductDetail(null);
-        // Use placeholder images on error
         setProductImages(placeholderImages);
         if (placeholderImages.length > 0) {
           setSelectedMainImage(placeholderImages[0]);
@@ -91,7 +82,6 @@ const ProductDetailPage = () => {
     fetchProduct();
   }, [id]);
 
-  // Handle loading and error states
   if (isLoading) {
     return <div className="max-w-7xl mx-auto p-4 md:p-8 text-center">Loading product details...</div>;
   }
@@ -118,30 +108,47 @@ const ProductDetailPage = () => {
       { name: 'Brown', hex: '#ab8e5b', stock: 5 },
     ],
     images: productImages,
-    mainImage: selectedMainImage
+    mainImage: selectedMainImage,
+    stock: productDetail.stock || 0,
+
+    
   };
 
   const handleAddToCart = () => {
     // Implement add to cart functionality
     const newItem = {
-      productId: id,
+     id: id,
       name: product.name,
       price: product.price,
       length: selectedLength,
       color: selectedColor.name,
-      quantity: 1
+      quantity: 1,
+      image: selectedMainImage,
+      stock: product.stock,
+      originalPrice:product.originalPrice,
+      size: selectedLength
     };
-    dispatch(addToCart(newItem));
+    dispatch(addToCartAsync(newItem));
     console.log('Adding to cart:', newItem);
    
   };
 
   const handleAddToWishlist = () => {
     // Implement add to wishlist functionality
-    console.log('Adding to wishlist:', {
-      productId: id,
-      name: product.name
-    });
+    const newItem = {
+     id: id,
+      name: product.name,
+      price: product.price,
+      length: selectedLength,
+      color: selectedColor.name,
+      quantity: 1,
+      image: selectedMainImage,
+      stock: product.stock,
+      originalPrice:product.originalPrice,
+      size: selectedLength
+    };
+    dispatch(addToWishlist(newItem));
+    console.log('Adding to wishlist:', newItem);
     // You could add notification here
   };
 
@@ -173,17 +180,17 @@ const ProductDetailPage = () => {
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-gray-500">
         <ol className="list-none p-0 inline-flex space-x-2">
           <li>
-            <a href="/" className="hover:underline">Home</a>
+            <Link to="/" className="hover:underline">Home</Link>
           </li>
           <li><span>&gt;</span></li>
           <li>
-            <a href="/shop" className="hover:underline">Shop</a>
+            <Link to="/shop" className="hover:underline">Shop</Link>
           </li>
           <li><span>&gt;</span></li>
           <li>
-            <a href={`/shop?category=${product.category}`} className="hover:underline">
+            <Link to={`/shop?category=${product.category}`} className="hover:underline">
               {product.category}
-            </a>
+            </Link>
           </li>
           <li><span>&gt;</span></li>
           <li className="text-gray-700" aria-current="page">{product.name}</li>
@@ -216,6 +223,14 @@ const ProductDetailPage = () => {
 
           {/* Main Image */}
           <div className="flex-1 relative aspect-square rounded overflow-hidden">
+            <>
+            <button
+        aria-label="Add to wishlist"
+        onClick={handleAddToWishlist}
+        className="md:hidden absolute top-2 right-2 z-10 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition"
+      >
+        <HeartIcon className="w-5 h-5 text-red-500" />
+        </button>
             {selectedMainImage ? (
               <ImageWithFallback
                 src={selectedMainImage}
@@ -228,7 +243,7 @@ const ProductDetailPage = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
-            )}
+            )}</>
           </div>
         </div>
 

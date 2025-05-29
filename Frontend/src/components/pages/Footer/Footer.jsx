@@ -16,129 +16,144 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-white  text-gray-700" >
-      <div className="container mx-auto px-6 lg:px-16 xl:px-32 py-10">
-        {/* <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-8"> */}
-        <div className="grid grid-cols-1 md:grid-rows-2 gap-8">
+    <footer className="bg-gradient-to-b from-white to-gray-50 text-gray-700 border-t border-gray-100 shadow-inner">
+      <div className="container mx-auto px-6 lg:px-16 xl:px-32 py-16">
+        <div className="grid grid-cols-1 md:grid-rows-2 gap-12">
           {/* Newsletter & Social */}
-          <div className="col-span-1 md:row-start-1 md:col-start-3 md:col-span-2 flex flex-col items-center md:items-start ">
-            <h2 className="text-2xl font-bold mb-4 md:hidden">Company Name</h2>
-            <p className="text-lg font-semibold mb-2">
+          <div className="col-span-1 md:row-start-1 md:col-start-3 md:col-span-2 flex flex-col items-center md:items-start">
+            <h2 className="text-2xl font-bold mb-4 md:hidden bg-gradient-to-r from-[#D0764F] to-orange-600 bg-clip-text text-transparent">
+              HairLyf
+            </h2>
+            <p className="text-xl font-semibold mb-4 text-gray-800">
               Get the latest deals in your inbox
             </p>
-            <form className="w-full max-w-md flex mb-6 gap-2">
+            <form className="w-full max-w-md flex mb-8 gap-3">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-grow border border-gray-300 rounded-lg px-4 py-2 focus:outline-none"
+                className="flex-grow border-2 border-gray-200 rounded-xl px-6 py-3 focus:outline-none focus:border-[#D0764F] transition-all duration-300 shadow-sm"
               />
               <button
                 type="submit"
-                className="bg-[#D0764F] text-white px-6 py-2 rounded-lg hover:bg-orange-700 transition-colors"
+                className="bg-[#D0764F] text-white px-8 py-3 rounded-xl hover:bg-orange-700 transition-all duration-300 transform hover:scale-105 shadow-md font-semibold"
               >
                 Subscribe
               </button>
             </form>
 
-            <h3 className="text-lg font-semibold mb-3">KEEP IN TOUCH</h3>
-            <div className="flex space-x-4 text-gray-600">
-              <a
-                href="#"
-                aria-label="Facebook"
-                className="hover:text-blue-600 transition-colors"
-              >
-                <FaFacebook size={40} />
-              </a>
-              <a
-                href="#"
-                aria-label="Instagram"
-                className="hover:text-pink-600 transition-colors"
-              >
-                <FaInstagram size={40} />
-              </a>
-              <a
-                href="#"
-                aria-label="X"
-                className="hover:text-black transition-colors"
-              >
-                <FaTwitter size={40} />
-              </a>
-              <a
-                href="#"
-                aria-label="LinkedIn"
-                className="hover:text-blue-700 transition-colors"
-              >
-                <FaLinkedin size={40} />
-              </a>
-              <a
-                href="#"
-                aria-label="YouTube"
-                className="hover:text-red-600 transition-colors"
-              >
-                <FaYoutube size={40} />
-              </a>
+            <h3 className="text-lg font-bold mb-4 text-gray-800">KEEP IN TOUCH</h3>
+            <div className="flex space-x-6 text-gray-600">
+              {[
+                { Icon: FaFacebook, color: "blue-600", label: "Facebook" },
+                { Icon: FaInstagram, color: "pink-600", label: "Instagram" },
+                { Icon: FaTwitter, color: "black", label: "X" },
+                { Icon: FaLinkedin, color: "blue-700", label: "LinkedIn" },
+                { Icon: FaYoutube, color: "red-600", label: "YouTube" },
+              ].map(({ Icon, color, label }) => (
+                <a
+                  key={label}
+                  href="#"
+                  aria-label={label}
+                  className={`hover:text-${color} transition-all duration-300 transform hover:scale-110`}
+                >
+                  <Icon size={32} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* About Company & Customer Service - Side by side on all screens */}
-          <div className="col-span-1 md:row-start-1 md:col-start-1 grid grid-cols-2 gap-8  md:gap-24">
-            <div >
-              <h3 className="text-xl font-bold mb-4">ABOUT COMPANY</h3>
-              <ul className="space-y-2">
-              <li><Link to="/about" className="hover:text-[#D0764F] transition-colors">About Us</Link></li>
-              <li><Link to="/careers" className="hover:text-[#D0764F] transition-colors">Careers</Link></li>
-              <li><Link to="/press" className="hover:text-[#D0764F] transition-colors">Press</Link></li>
-              <li><Link to="/sustainability" className="hover:text-[#D0764F] transition-colors">Sustainability</Link></li>
-              <li><Link to="/faqs" className="hover:text-[#D0764F] transition-colors">FAQs</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold mb-4">CUSTOMER SERVICE</h3>
-              <ul className="space-y-2">
-                <li><Link to="/contact" className="hover:text-[#D0764F] transition-colors">Contact Us</Link></li>
-              <li><Link to="/return" className="hover:text-[#D0764F] transition-colors">Return Policy</Link></li>
-              <li><Link to="/shipping" className="hover:text-[#D0764F] transition-colors">Shipping Info</Link></li>
-              <li><Link to="/cancellation" className="hover:text-[#D0764F] transition-colors">Cancellation</Link></li>
-              <li><Link to="/track-order" className="hover:text-[#D0764F] transition-colors">Track Order</Link></li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Quick Links & Legal - Side by side on all screens */}
-          <div className="col-span-1 md:row-start-2 md:col-start-1 grid grid-cols-2 gap-8 md:gap-24">
-            <div>
-              <h3 className="text-xl font-bold mb-4">QUICK LINKS</h3>
-              <ul className="space-y-2">
+          {/* About Company & Customer Service */}
+          <div className="col-span-1 md:row-start-1 md:col-start-1 grid grid-cols-2 gap-8 md:gap-24">
+            <div className="footer-section">
+              <h3 className="text-xl font-bold mb-6 text-gray-800 border-b-2 border-[#D0764F] pb-2 inline-block">
+                ABOUT COMPANY
+              </h3>
+              <ul className="space-y-3">
                 {[
-                  "Home",
-                  "Shop All",
-                  "New Arrivals",
-                  "Offers"
+                  { to: "/about", text: "About Us" },
+                  { to: "/careers", text: "Careers" },
+                  { to: "/press", text: "Press" },
+                  { to: "/sustainability", text: "Sustainability" },
+                  { to: "/faqs", text: "FAQs" },
                 ].map((item) => (
+                  <li key={item.text}>
+                    <Link
+                      to={item.to}
+                      className="hover:text-[#D0764F] transition-all duration-300 flex items-center space-x-2 group"
+                    >
+                      <span className="transform group-hover:translate-x-2 transition-transform duration-300">
+                        {item.text}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="footer-section">
+              <h3 className="text-xl font-bold mb-6 text-gray-800 border-b-2 border-[#D0764F] pb-2 inline-block">
+                CUSTOMER SERVICE
+              </h3>
+              <ul className="space-y-3">
+                {[
+                  { to: "/contact", text: "Contact Us" },
+                  { to: "/return", text: "Return Policy" },
+                  { to: "/shipping", text: "Shipping Info" },
+                  { to: "/cancellation", text: "Cancellation" },
+                  { to: "/track-order", text: "Track Order" },
+                ].map((item) => (
+                  <li key={item.text}>
+                    <Link
+                      to={item.to}
+                      className="hover:text-[#D0764F] transition-all duration-300 flex items-center space-x-2 group"
+                    >
+                      <span className="transform group-hover:translate-x-2 transition-transform duration-300">
+                        {item.text}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Quick Links & Legal */}
+          <div className="col-span-1 md:row-start-2 md:col-start-1 grid grid-cols-2 gap-8 md:gap-24">
+            <div className="footer-section">
+              <h3 className="text-xl font-bold mb-6 text-gray-800 border-b-2 border-[#D0764F] pb-2 inline-block">
+                QUICK LINKS
+              </h3>
+              <ul className="space-y-3">
+                {["Home", "Shop All", "New Arrivals", "Offers"].map((item) => (
                   <li key={item}>
                     <a
                       href="#"
-                      className="hover:text-[#D0764F] transition-colors"
+                      className="hover:text-[#D0764F] transition-all duration-300 flex items-center space-x-2 group"
                     >
-                      {item}
+                      <span className="transform group-hover:translate-x-2 transition-transform duration-300">
+                        {item}
+                      </span>
                     </a>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div>
-              <h3 className="text-xl font-bold mb-4">LEGAL</h3>
-              <ul className="space-y-2">
+            <div className="footer-section">
+              <h3 className="text-xl font-bold mb-6 text-gray-800 border-b-2 border-[#D0764F] pb-2 inline-block">
+                LEGAL
+              </h3>
+              <ul className="space-y-3">
                 {["Privacy Policy", "Terms of Service", "Cookie Policy"].map(
                   (item) => (
                     <li key={item}>
                       <a
                         href="#"
-                        className="hover:text-[#D0764F] transition-colors"
+                        className="hover:text-[#D0764F] transition-all duration-300 flex items-center space-x-2 group"
                       >
-                        {item}
+                        <span className="transform group-hover:translate-x-2 transition-transform duration-300">
+                          {item}
+                        </span>
                       </a>
                     </li>
                   )
@@ -147,33 +162,54 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Payments & Badges - Reordered as requested */}
-          <div className="col-span-1 md:row-start-2 md:col-start-3 md:col-span-2 flex flex-col items-center md:items-start ">
-            <div className="flex flex-row md:space-x-4 xl:space-x-8 space-x-8 mb-4">
-              <div className="flex items-center space-x-2">
-                <SiAdguard size={40} className="mr-4"/>
-                <span className="lg:text-xl  flex flex-col">
-                  <span>Guaranteed</span> Safe Checkout
+          {/* Payments & Badges */}
+          <div className="col-span-1 md:row-start-2 md:col-start-3 md:col-span-2 flex flex-col items-center md:items-start space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex items-center space-x-4 bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                <SiAdguard size={40} className="text-[#D0764F]" />
+                <span className="text-lg flex flex-col">
+                  <span className="font-semibold">Guaranteed</span>
+                  <span className="text-gray-600">Safe Checkout</span>
                 </span>
               </div>
-              <div className="flex items-center space-x-2">
-                <CiLock size={40} className="mr-4"/>
-                <span className="xl:text-xl flex flex-col"><span>Secure SSL</span> Encryption</span>
+              <div className="flex items-center space-x-4 bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                <CiLock size={40} className="text-[#D0764F]" />
+                <span className="text-lg flex flex-col">
+                  <span className="font-semibold">Secure SSL</span>
+                  <span className="text-gray-600">Encryption</span>
+                </span>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4 md:gap-2 lg:gap-4">
-              <img src={upi} alt="UPI" className="xl:h-16" />
-              <img src={visa} alt="Visa" className="xl:h-16" />
-              <img src={paypal} alt="PayPal" className="xl:h-16" />
-              <img src={mastercard} alt="Mastercard" className="h-16" />
+            <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+              {[
+                { src: upi, alt: "UPI" },
+                { src: visa, alt: "Visa" },
+                { src: paypal, alt: "PayPal" },
+                { src: mastercard, alt: "Mastercard" },
+              ].map((payment) => (
+                <div
+                  key={payment.alt}
+                  className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+                >
+                  <img
+                    src={payment.src}
+                    alt={payment.alt}
+                    className="h-12 xl:h-14 object-contain"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} HairLyf. All rights reserved.
+        <div className="mt-16 pt-8 border-t border-gray-200 text-center">
+          <p className="text-gray-600 text-sm">
+            © {new Date().getFullYear()}{" "}
+            <span className="text-[#D0764F] font-semibold">HairLyf</span>. All
+            rights reserved.
+          </p>
         </div>
       </div>
     </footer>
