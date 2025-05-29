@@ -22,6 +22,9 @@ import CheckAuth from "./components/auth/CheckAuth.jsx";
 import ProductDetailPage from "./components/pages/ProductDetailPage/ProductDetailPage.jsx";
 import Wishlist from './components/pages/Wishlist/Wishlist.jsx';
 import UserDashboard from "./components/pages/userDashboard/UserDashboard.jsx";
+import AuthLayout from "./components/pages/authPages/Layout.jsx";
+import LoginWithOTP from "./components/pages/authPages/otp/LoginWithOTP.jsx";
+import VerifyWithOTP from "./components/pages/authPages/otp/VerifyWithOTP.jsx";
 import ForgotPassword from "./components/pages/ForgotPassword/ForgotPassword.jsx";
 import NewPassword from "./components/pages/ForgotPassword/NewPassword.jsx";
 import Checkout from "./components/pages/Checkout/Checkout.jsx";
@@ -51,7 +54,17 @@ const App = () => {
           <Route
             path="/cart"
             element={
-              <Cart />
+              <CheckAuth>
+                <Cart />
+              </CheckAuth>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <CheckAuth>
+                <Whishlist />
+              </CheckAuth>
             }
           />
           <Route path="/wishlist" element={<Wishlist />} />
@@ -59,8 +72,15 @@ const App = () => {
             <Route path="menSection" element={<MenSection />} />
             <Route path="womenSection" element={<WomenSection />} />
           </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+
+          <Route path="/" element={<AuthLayout />}>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="login-with-otp" element={<LoginWithOTP />} />
+            <Route path="verify-with-otp" element={<VerifyWithOTP />} />
+
+          </Route>
+
           <Route path="/unauth-page" element={<UnauthPage />} />
           <Route path="/UserDashboard" element={<UserDashboard />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />

@@ -1,9 +1,8 @@
+/* eslint-disable no-unused-vars */
 // authSlice.js
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_BASE_URL } from '../../components/config/apiConfig';
-// import { toast } from 'react-toastify';
-
 
 // Async Thunks
 export const registerUser = createAsyncThunk(
@@ -38,14 +37,26 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+// Helper function to safely parse JSON
+const safeParseJSON = (str) => {
+  try {
+    const parsed = JSON.parse(str);
+    return parsed;
+  } catch (e) {
+    return null; // Return null if parsing fails
+  }
+};
+
+// authSlice.js
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: null,
-    token: null,
+    // Safely check if 'user' exists in localStorage and parse it, otherwise set it to null
+    user: safeParseJSON(localStorage.getItem('user')),
+    token: localStorage.getItem('token') || null,
     isLoading: false,
     error: null,
-    isAuthenticated: false
+    isAuthenticated: !!localStorage.getItem('token')
   },
   reducers: {
     logout: (state) => {
