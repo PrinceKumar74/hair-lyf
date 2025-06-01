@@ -75,9 +75,10 @@ const FreshArrivals = () => {
   const renderProducts = (items, bgColor) => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 md:px-16 lg:px-24">
       {items.map((item, index) => {
-        const offerPrice = (item.price).toFixed(2);
-        const originalPrice = (item.price + 500).toFixed(2);
-        const discount = Math.round(((item.price + 500 - item.price) / (item.price + 500)) * 100);
+        const price = Number(item.price) || 0;
+        const offerPrice = price.toFixed(2);
+        const originalPrice = (price + 500).toFixed(2);
+        const discount = Math.round(((price + 500 - price) / (price + 500)) * 100);
 
         return (
           <motion.div
@@ -87,7 +88,7 @@ const FreshArrivals = () => {
             key={item._id}
             className="group bg-white rounded-xl shadow-sm hover:shadow-xl border border-gray-200 hover:border-[#D0764F] transition-all duration-300 overflow-hidden transform hover:-translate-y-1"
           >
-            <Link to={`/product/${item._id}`}>
+            <Link to={`/products/${item._id}`}>
               <div className={`relative ${bgColor} h-72 overflow-hidden`}>
                 <img
                   src={item.imageUrls?.[0]}
@@ -107,7 +108,7 @@ const FreshArrivals = () => {
                 <p className="text-gray-400 text-sm line-through">MRP: ₹{originalPrice}</p>
                 <p className="text-[#D0764F] text-xl font-bold">₹{offerPrice}</p>
               </div>
-              <Link to={`/product/${item._id}`}>
+              <Link to={`/products/${item._id}`}>
                 <button className="relative overflow-hidden bg-[#D0764F] text-white w-full py-3 cursor-pointer rounded-md font-semibold tracking-wide group-hover:bg-[#c06441] transition-all duration-300">
                   <span className="relative z-10">View Details</span>
                   <div className="absolute inset-0 h-full w-full transform scale-0 group-hover:scale-100 transition-transform duration-300 bg-gradient-to-r from-[#c06441] to-[#D0764F]"></div>
