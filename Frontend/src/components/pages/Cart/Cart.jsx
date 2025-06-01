@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaTrash } from 'react-icons/fa';
 import {
-   removeFromCartAsync,
-  incrementQuantity,
-  decrementQuantity
+  removeFromCartAsync,
+  updateCartItemAsync,
+  fetchCartItems,
+  clearCartAsync
 } from '../../../store/slice/cartSlice';
 
 import EmptyCartImg from '/womanWithCart/emptyCart.png';
 
 const Cart = () => {
-  const cartItems = useSelector(state => state.cart);
+  const { items: cartItems, isLoading } = useSelector(state => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchCartItems());
+  }, [dispatch]);
 
   const totalMRP = cartItems.reduce(
     (acc, item) => acc + (item.originalPrice || item.price || 0) * (item.quantity || 1),
@@ -36,6 +41,62 @@ const Cart = () => {
     }
     return Math.round(((mrp - currentPrice) / mrp) * 100);
   };
+
+  const handleIncrementQuantity = async (item) => {
+    try {
+      await dispatch(updateCartItemAsync({
+        productId: item.productId,
+        variantId: item.variantId,
+        quantity: (item.quantity || 1) + 1
+      })).unwrap();
+    } catch (error) {
+      console.error('Failed to update quantity:', error);
+    }
+  };
+
+  const handleDecrementQuantity = async (item) => {
+    if (item.quantity <= 1) {
+      handleRemoveItem(item);
+      return;
+    }
+    try {
+      await dispatch(updateCartItemAsync({
+        productId: item.productId,
+        variantId: item.variantId,
+        quantity: item.quantity - 1
+      })).unwrap();
+    } catch (error) {
+      console.error('Failed to update quantity:', error);
+    }
+  };
+
+  const handleRemoveItem = async (item) => {
+    try {
+      await dispatch(removeFromCartAsync({
+        productId: item.productId,
+        variantId: item.variantId
+      })).unwrap();
+    } catch (error) {
+      console.error('Failed to remove item:', error);
+    }
+  };
+
+  const handleClearCart = async () => {
+    try {
+      await dispatch(clearCartAsync()).unwrap();
+    } catch (error) {
+      console.error('Failed to clear cart:', error);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto py-6 sm:py-8 px-4 text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
+        <p className="mt-4 text-gray-600">Loading cart...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-6 sm:py-8 px-4">
@@ -68,7 +129,7 @@ const Cart = () => {
           <div className="flex-grow lg:w-2/3">
             {cartItems.map(item => {
               const discountPercent = calculateDiscountPercent(item.price, item.originalPrice);
-              const itemId = item.id || `item-${Math.random().toString(36).substr(2, 9)}`;
+              const itemId = item.productId;
               const showStockMessage = item.stock && item.stock < 10;
 
               return (
@@ -84,7 +145,7 @@ const Cart = () => {
                     </div>
                     <div className="flex-grow flex flex-col relative min-w-0">
                         <button
-                           onClick={() => dispatch(removeFromCartAsync(itemId))}
+                           onClick={() => handleRemoveItem(item)}
                            className="absolute top-0 right-0 p-1 text-gray-400 hover:text-red-600 z-10"
                            aria-label="Remove item"
                         >
@@ -117,7 +178,7 @@ const Cart = () => {
                         <div className="ml-auto mt-1">
                            <div className="flex items-center border border-gray-300 rounded h-7">
                               <button
-                                 onClick={() => dispatch(decrementQuantity(itemId))}
+                                 onClick={() => handleDecrementQuantity(item)}
                                  className="px-2 py-0.5 text-gray-600 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed rounded-l"
                                  disabled={!item.quantity || item.quantity <= 1}
                               > - </button>
@@ -125,7 +186,7 @@ const Cart = () => {
                                  {item.quantity || 1}
                               </span>
                               <button
-                                 onClick={() => dispatch(incrementQuantity(itemId))}
+                                 onClick={() => handleIncrementQuantity(item)}
                                  className="px-2 py-0.5 text-gray-600 hover:bg-gray-100 rounded-r"
                               > + </button>
                            </div>
@@ -171,7 +232,7 @@ const Cart = () => {
                            <div className="flex items-center mb-2">
                               <div className="flex items-center border border-gray-300 rounded h-8">
                                  <button
-                                    onClick={() => dispatch(decrementQuantity(itemId))}
+                                    onClick={() => handleDecrementQuantity(item)}
                                     className="px-2 py-1 text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed rounded-l"
                                     disabled={!item.quantity || item.quantity <= 1}
                                  > - </button>
@@ -179,7 +240,7 @@ const Cart = () => {
                                     {item.quantity || 1}
                                  </span>
                                  <button
-                                    onClick={() => dispatch(incrementQuantity(itemId))}
+                                    onClick={() => handleIncrementQuantity(item)}
                                     className="px-2 py-1 text-gray-700 hover:bg-gray-100 rounded-r"
                                  > + </button>
                               </div>
@@ -190,7 +251,7 @@ const Cart = () => {
                               )}
                            </div>
                            <button
-                              onClick={() => dispatch(removeFromCartAsync(itemId))}
+                              onClick={() => handleRemoveItem(item)}
                               className="text-gray-500 hover:text-red-600 p-1 mt-auto"
                               aria-label="Remove item"
                            >
