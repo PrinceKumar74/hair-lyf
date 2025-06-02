@@ -714,19 +714,19 @@ const PREDEFINED_WIGS = [
   {
     id: 'wig1',
     name: 'Curly Wave Style 1',
-    imgSrc: '/Wigs/wig1.png', 
+    imgSrc: '/Wigs/Womenwig1.png', 
     rating: 4.8, price: '₹1280', originalPrice: '₹2290', discount: '(50% OFF)',
   },
   {
     id: 'wig2',
     name: 'Straight Bob Style',
-    imgSrc: '/Wigs/wig2.png', 
+    imgSrc: '/Wigs/Womenwig2.png', 
     rating: 4.7, price: '₹1350', originalPrice: '₹2400', discount: '(44% OFF)',
   },
   {
     id: 'wig3',
     name: 'Long Layers Style',
-    imgSrc: '/Wigs/wig3.png', 
+    imgSrc: '/Wigs/Womenwig3.png', 
     rating: 4.9, price: '₹1500', originalPrice: '₹3000', discount: '(50% OFF)',
   },
   {
@@ -737,7 +737,7 @@ const PREDEFINED_WIGS = [
   },
 ];
 
-const SwapHairForm = () => {
+const WomanTryOn = () => {
   const [faceImageBase64, setFaceImageBase64] = useState(null); // Data URL of the original user photo
   const [originalFaceImageSrc, setOriginalFaceImageSrc] = useState('https://via.placeholder.com/350x350/ECECEC/AAA?Text=Your+Photo'); // For displaying the original image
   const [mainDisplayImageSrc, setMainDisplayImageSrc] = useState('https://via.placeholder.com/350x350/F0F0F0/CCC?Text=Try-On+Preview'); // For displaying the processed/preview image
@@ -958,4 +958,4 @@ const SwapHairForm = () => {
   );
 };
 
-export default SwapHairForm;
+export default WomanTryOn;

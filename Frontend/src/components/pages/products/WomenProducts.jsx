@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Heart, ShoppingCart, Star, Check } from "lucide-react";
 import { addToCart } from '../../../store/slice/cartSlice';
 import { addToWishlist } from '../../../store/slice/wishlistSlice';
+import { Link } from "react-router-dom";
 
 const WomenProducts = () => {
   const [products, setProducts] = useState();
@@ -105,6 +106,9 @@ const WomenProducts = () => {
           <div className="text-center">
             <h1 className="text-5xl font-bold text-orange-600 mb-2">Women's Collection</h1>
             <p className="text-gray-600 text-lg">Discover premium beauty products crafted for women</p>
+          <Link to ="/WomanTryOn">  <button className="bg-white border-2 mt-3 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-semibold py-4 px-8 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg">
+            2D Try on
+          </button></Link>
           </div>
         </div>
       </div>

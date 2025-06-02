@@ -27,7 +27,7 @@ const Register = () => {
     dispatch(registerUser(formData))
       .unwrap()
       .then(() => {
-        navigate('/');
+        navigate('/verify-with-otp', { state: { phone: formData.phone } });
       })
       .catch((err) => {
         console.error('Registration failed:', err);

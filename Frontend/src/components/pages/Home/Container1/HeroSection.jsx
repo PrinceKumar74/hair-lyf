@@ -140,7 +140,7 @@ const HeroSection = () => {
           Your browser does not support the video tag.
           Please update your browser or use a different one.
         </video>
-        {/* Optional: Add a semi-transparent overlay for better text readability */}
+        {/* semi-transparent overlay for better text readability */}
         <div className="absolute inset-0 bg-black opacity-30"></div>
       </div>
 

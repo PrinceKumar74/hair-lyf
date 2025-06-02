@@ -34,6 +34,8 @@ import Sample from "./components/pages/TryOn/Sample.jsx";
 import SwapHairForm from "./components/pages/TryOn/SwapHairForm[1].jsx";
 import MenProducts from "./components/pages/products/MenProducts.jsx";
 import WomenProducts from "./components/pages/products/WomenProducts.jsx";
+import WomanTryon from "./components/pages/TryOn/Womantryon.jsx";
+import About from "./components/pages/About/About.jsx";
 const App = () => {
   return (
     <Provider store={store}>
@@ -47,9 +49,11 @@ const App = () => {
           <Route path="/tryOn" element={<TryOn />} />
           <Route path ="/sample" element={<Sample />} />
           <Route path="/Swap" element={<SwapHairForm/>}/>
+          <Route path ="/womantryon" element={<WomanTryon/>}/>
           <Route path="/help" element={<Help />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="/about" element={<About />} />
           {/* Cart Page -- with Protected Route */}
           <Route
             path="/cart"

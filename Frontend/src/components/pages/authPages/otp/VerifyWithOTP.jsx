@@ -190,6 +190,7 @@ const OTPVerification = () => {
 
   // Get phone number from navigation state or location
   const phone = location.state?.phone || '';
+  console.log(phone)
 
   // Handle OTP input change
   const handleChange = (index, value) => {

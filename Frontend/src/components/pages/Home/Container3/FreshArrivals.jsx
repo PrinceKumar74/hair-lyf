@@ -64,7 +64,7 @@ const FreshArrivals = () => {
   const renderProducts = (items, bgColor) => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 px-6 md:px-16 lg:px-24">
       {items.map((item) => {
-        const offerPrice = (item.price).toFixed(2);
+        const offerPrice = (item.price);
         const originalPrice = (item.price + 500).toFixed(2);
 
         return (

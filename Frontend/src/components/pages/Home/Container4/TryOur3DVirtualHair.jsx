@@ -1,50 +1,47 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+
 const TryOur3DVirtualHair = () => {
-  const bgColor = '#FFEEF0';
-  const headingColor = '#FFFFFF';
-  const barColor = '#E91E63';
-
-
+  // Placeholder: Replace with the actual path to the model image
+  // This is the image of the person that will appear in the left column.
+  const modelImageUrl = '/hair/2dWoman.png'; // e.g., '/images/curly-hair-model.jpg'
 
   return (
-    <section style={{ backgroundColor: bgColor }} className="py-8 md:py-12 ">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center ">
-          <div className="md:col-span-1 text-center md:text-left">
-            <div style={{ backgroundColor: barColor, color: headingColor }} className="inline-block  px-4  rounded-lg lg:px-10  lg:py-4 py-2 uppercase font-semibold text-xl lg:text-3xl tracking-wider  mx-auto md:mx-0">
-              FIND YOUR PERFECT MATCH
+    <section style={{ backgroundColor: '#FFFFFF' }} className="w-full py-10 md:py-16 font-sans"> {/* Default to sans-serif, serif for specific heading */}
+      <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif text-[#BF5B38] text-center mb-8 md:mb-12 px-4">
+        2D Try-On
+      </h1>
+      {/* Increased max-width from max-w-5xl to max-w-7xl for a wider layout */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* Left Column: Image */}
+          <div className="flex justify-center md:justify-end md:pr-6"> {/* Changed to md:justify-end to push image a bit to the right if needed */}
+            {/* Container for the image with its specific background */}
+            {/* Increased max-width for the image container to allow it to be larger if the original image is large enough */}
+            <div className="bg-[#506676] p-0 rounded-xl shadow-xl overflow-hidden max-w-md lg:max-w-lg w-full"> {/* Adjusted max-width from max-w-sm */}
+              <img
+                src={modelImageUrl}
+                alt="Model trying on a wig virtually"
+                className="w-full h-auto object-cover display-block" // ensure image displays correctly
+              />
             </div>
-
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif mt-4 md:mt-6 text-gray-800 leading-tight">
-              Try Our 3D Virtual Hair
-            </h2>
-
-            <p className="text-base md:text-lg lg:text-xl font-serif mt-1 md:mt-2 text-gray-700">
-              - See Your New Look Instantly!
-            </p>
-
-            <div className="flex items-center justify-center md:justify-start mt-6 md:mt-8 space-x-4">
-            <img src="/camera.png" alt="Camera icon" className="w-16 h-10 md:w-8 md:h-8 lg:w-32 lg:h-20" />
-            <Link to='/tryOn'>
-            <button className="relative group overflow-hidden cursor-pointer border border-gray-500 text-gray-600 px-8 py-2 md:px-34 md:py-2 rounded-lg transition-colors text-base lg:text-2xl md:text-lg font-semibold">
- 
-  <span
-    className="absolute inset-0 bg-[#E91E63] w-0 group-hover:w-full rounded-md transition-all duration-300 ease-out"
-    aria-hidden="true"
-  ></span>
-  
-  <span className="relative group-hover:text-white transition-colors duration-700 ">
-    Try Now
-  </span>
-</button></Link>
-            </div>
-
-            
           </div>
 
-          <div className="md:col-span-1 relative mt-8 md:mt-0 px-2 md:px-4">
-            <img src="/hair/woman.png" alt="Woman using virtual hair try-on app" className="w-full h-auto rounded-lg shadow-lg" />
+          {/* Right Column: Text and Button */}
+          <div className="text-center md:text-left pt-6 md:pt-0 md:pl-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900"> {/* Slightly increased text size for larger screens */}
+              Try on Wigs Virtually
+            </h2>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-700 mt-3 mb-6 leading-relaxed"> {/* Slightly increased text size */}
+              Experience our virtual try-on feature and see how different wigs look on you before you buy.
+            </p>
+            <Link to='/tryOn' className="inline-block">
+              <button
+                className="bg-[#B95C40] text-white px-8 sm:px-10 lg:px-12 py-3 lg:py-4 rounded-lg text-lg lg:text-xl font-semibold hover:bg-opacity-90 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#B95C40] focus:ring-opacity-50 shadow-md hover:shadow-lg" // Adjusted padding and text size
+              >
+                Try Now
+              </button>
+            </Link>
           </div>
         </div>
       </div>
