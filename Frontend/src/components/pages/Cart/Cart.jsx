@@ -29,7 +29,7 @@ const Cart = () => {
     0
   );
   const totalDiscount = totalMRP - currentTotal;
-  const gstTax = 50.00;
+  const gstTax = currentTotal * 0.18;
   const shippingFee = currentTotal > 0 ? 20.00 : 0;
   const totalAmount = currentTotal + gstTax + shippingFee;
 
@@ -296,7 +296,7 @@ const Cart = () => {
                   <span>₹{totalAmount.toFixed(0)}</span>
                 </div>
                 <Link
-                  to="/checkout"
+                  to= '/checkout'
                   className="block w-full text-center bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition duration-200 ease-in-out font-semibold text-base mb-3"
                 >
                   PLACE ORDER

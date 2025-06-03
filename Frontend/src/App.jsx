@@ -25,62 +25,38 @@ import Login from "./components/pages/authPages/Login.jsx";
 import Register from "./components/pages/authPages/Register.jsx";
 import LoginWithOTP from "./components/pages/authPages/otp/LoginWithOTP.jsx";
 import VerifyWithOTP from "./components/pages/authPages/otp/VerifyWithOTP.jsx";
-import UnauthPage from "./components/pages/notFound/UnAuth.jsx";
-import NotFound from "./components/pages/notFound/NotFound.jsx";
-import UserDashboard from "./components/pages/userDashboard/UserDashboard.jsx";
-import AdminDashboard from "./components/admin/AdminDashboard.jsx";
-
-// Middleware
-import CheckAuth from "./components/auth/CheckAuth.jsx";
-
-// Layout for main pages
-const MainLayout = () => (
-  <>
-    <Header />
-    <Outlet />
-    <Footer />
-  </>
-);
-
 const App = () => {
   return (
     <Provider store={store}>
       <Router>
         <Routes>
-          {/* Public and Main Routes with Header/Footer */}
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/ourStory" element={<OurStory />} />
-            <Route path="/tryOn" element={<TryOn />} />
-            <Route path="/help" element={<Help />} />
-            <Route path="/blogs" element={<Blogs />} />
-            <Route path="/products/:id" element={<ProductDetailPage />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/unauth-page" element={<UnauthPage />} />
-
-            {/* Shop with nested sections */}
-            <Route path="/shop" element={<Shop />}>
-              <Route path="menSection" element={<MenSection />} />
-              <Route path="womenSection" element={<WomenSection />} />
-            </Route>
-
-            {/* Protected Routes */}
-            <Route
-              path="/cart"
-              element={
-                <CheckAuth>
-                  <Cart />
-                </CheckAuth>
-              }
-            />
-            <Route
-              path="/wishlist"
-              element={
-                <CheckAuth>
-                  <Wishlist />
-                </CheckAuth>
-              }
-            />
+          <Route path="/" element={<Home />} />
+          <Route path="/ourStory" element={<OurStory />} />
+          <Route path="/tryOn" element={<TryOn />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/product/:id" element={<ProductDetailPage />} />
+          {/* Cart Page -- with Protected Route */}
+          <Route
+            path="/cart"
+            element={
+              <CheckAuth>
+                <Cart />
+              </CheckAuth>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <CheckAuth>
+                <Whishlist />
+              </CheckAuth>
+            }
+          />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/shop" element={<Shop />}>
+            <Route path="menSection" element={<MenSection />} />
+            <Route path="womenSection" element={<WomenSection />} />
           </Route>
 
           {/* Auth Layout Routes */}
@@ -93,10 +69,11 @@ const App = () => {
 
           {/* Standalone pages without Header/Footer */}
           <Route path="/UserDashboard" element={<UserDashboard />} />
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
-
-          {/* Catch-all 404 */}
           <Route path="*" element={<NotFound />} />
+          <Route path ="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/paymentStatus" element={<PaymentStatus />} />
+
         </Routes>
       </Router>
     </Provider>

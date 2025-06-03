@@ -117,6 +117,14 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(registerUser(formData))
+      .unwrap()
+      .then(() => {
+        navigate('/verify-with-otp', { state: { phone: formData.phone } });
+      })
+      .catch((err) => {
+        console.error('Registration failed:', err);
+      });
     
     // Mark all fields as touched
     const allTouched = Object.keys(formData).reduce((acc, key) => ({

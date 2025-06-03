@@ -18,7 +18,8 @@ const OTPVerification = () => {
   const phone = location.state?.phone;
 
   useEffect(() => {
-    if (!email || !phone) {
+    if (!email || !phone) {  console.log(phone)
+
       setMessage('Email or phone number not found. Please register again.');
       setTimeout(() => navigate('/register'), 3000);
     }

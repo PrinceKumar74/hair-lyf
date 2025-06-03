@@ -76,7 +76,7 @@ const FreshArrivals = () => {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-6 md:px-16 lg:px-24">
       {items.map((item, index) => {
         const price = Number(item.price) || 0;
-        const offerPrice = price.toFixed(2);
+        const offerPrice = price;
         const originalPrice = (price + 500).toFixed(2);
         const discount = Math.round(((price + 500 - price) / (price + 500)) * 100);
 
