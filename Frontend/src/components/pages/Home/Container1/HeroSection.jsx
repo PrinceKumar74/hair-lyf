@@ -1,8 +1,8 @@
-// import React from "react";
-// import { motion } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import bigImg from '../../../../../public/assets/heroSection/bigImg.png';
-// import bottomRightImg from '../../../../../public/assets/heroSection/bottomRightImg.png';
-// import topLeftImg from '../../../../../public/assets/heroSection/topLeftImg.png';
+import bottomRightImg from '../../../../../public/assets/heroSection/bottomRightImg.png';
+import topLeftImg from '../../../../../public/assets/heroSection/topLeftImg.png';
 
 // export default function WigPromo() {
 //   return (
