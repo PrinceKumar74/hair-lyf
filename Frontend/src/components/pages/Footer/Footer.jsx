@@ -182,7 +182,7 @@ const Footer = () => {
                 { src: "/footerImg/upi.png", alt: "UPI" },
                 { src: "/footerImg/visa.png", alt: "Visa" },
                 { src: "/footerImg/paypal.png", alt: "PayPal" },
-                { src: "/footerImg/mastercard.png", alt: "Mastercard" },
+                { src: "/footerImg/masterCard.png", alt: "Mastercard" },
               ].map((payment) => (
                 <div
                   key={payment.alt}
