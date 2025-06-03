@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Heart, ShoppingCart, Star } from "lucide-react";
-import { addToCart } from '../../../store/slice/cartSlice';
+import { addToCartAsync } from '../../../store/slice/cartSlice';
 import { addToWishlist } from '../../../store/slice/wishlistSlice';
 
 const MenProducts = () => {
@@ -51,7 +51,7 @@ const MenProducts = () => {
       size: product.variants?.[0]?.size || 'Standard'
     };
 
-    dispatch(addToCart(newItem));
+    dispatch(addToCartAsync(newItem));
     console.log('Adding to cart:', newItem);
   };
 
