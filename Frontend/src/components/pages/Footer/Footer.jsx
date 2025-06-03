@@ -6,10 +6,6 @@ import {
   FaLinkedin,
   FaYoutube,
 } from "react-icons/fa";
-import upi from "../../../../public/footerImg/upi.png";
-import visa from "../../../../public/footerImg/visa.png";
-import paypal from "../../../../public/footerImg/paypal.png";
-import mastercard from "../../../../public/footerImg/mastercard.png";
 import { SiAdguard } from "react-icons/si";
 import { CiLock } from "react-icons/ci";
 import { Link } from "react-router-dom";
@@ -183,10 +179,10 @@ const Footer = () => {
 
             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
               {[
-                { src: upi, alt: "UPI" },
-                { src: visa, alt: "Visa" },
-                { src: paypal, alt: "PayPal" },
-                { src: mastercard, alt: "Mastercard" },
+                { src: "/footerImg/upi.png", alt: "UPI" },
+                { src: "/footerImg/visa.png", alt: "Visa" },
+                { src: "/footerImg/paypal.png", alt: "PayPal" },
+                { src: "/footerImg/mastercard.png", alt: "Mastercard" },
               ].map((payment) => (
                 <div
                   key={payment.alt}
